@@ -95,8 +95,19 @@ $ expo start
 # :art: Design
 
 ## Dependencies
-### react-native-navigation
-TODO
+### [react-native-navigation](https://reactnavigation.org/docs/6.x/getting-started/)
+Used to navigate amongst screens.
+```bash
+$ yarn add @react-navigation/native@next
+$ expo install react-native-gesture-handler react-native-reanimated react-native-screens react-native-safe-area-context
+$ yarn add @react-navigation/stack@next @react-native-masked-view/masked-view
+```
+
+## [react-native-logs](https://github.com/onubo/react-native-logs)
+Performant logging that will log to various transports
+```bash
+$ yarn add react-native-logs
+```
 
 ### [expo-template-bare-typescript](https://www.npmjs.com/package/expo-template-bare-typescript)
 Starting template for `hoc5-app` that sets up a typescript environment

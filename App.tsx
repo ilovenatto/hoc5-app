@@ -1,25 +1,36 @@
-import { StatusBar } from 'expo-status-bar';
-import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
-import {LOG} from "./src/util/HocLogger";
+import * as React from 'react';
+import {NavigationContainer} from '@react-navigation/native';
+import {createStackNavigator} from '@react-navigation/stack';
+import {SplashController} from "./src/ui/splash/SplashController";
+import {EventListController} from "./src/ui/eventList/EventListController";
+import {EventDetailController} from "./src/ui/eventDetail/EventDetailController";
 
-export default function App() {
-  LOG.debug("Hello world logger")
+//https://reactnavigation.org/docs/typescript/
+export type RootStackParamList = {
+  // Strongly type the route parameters this screen expects
+  // Otherwise, there is an error when you call navigate()
+
+  // No route parameters expected by these screens
+  Splash: undefined;
+  EventList: undefined;
+  EventDetail: undefined;
+};
+
+/**
+ * Private: App wide stack navigator instance.
+ */
+const Stack = createStackNavigator<RootStackParamList>();
+
+function App() {
   return (
-    <View style={styles.container}>
-      <Text>Hello Caden and Josh and Dan!! </Text>
-      <Text>CHANGE ME and try this out</Text>
-      <Text>Hello world..</Text>
-      <StatusBar style="auto" />
-    </View>
+    <NavigationContainer>
+      <Stack.Navigator>
+        <Stack.Screen name="Splash" component={SplashController} />
+        <Stack.Screen name="EventList" component={EventListController} />
+        <Stack.Screen name="EventDetail" component={EventDetailController} />
+      </Stack.Navigator>
+    </NavigationContainer>
   );
 }
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
+export default App;
