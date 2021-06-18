@@ -1,6 +1,7 @@
-# :church: hoc5-app :church:
+# HOC5 Mobile App
+![hero](docs/img_hero.png)
 
-# Introduction
+# :church: Introduction
 TODO
 
 # :hammer: Development
