@@ -2,6 +2,12 @@
 ![hero](docs/img_hero.png)
 
 # :church: Introduction
+The HOC 5 Mobile App will be used to improve the experience of HOC 5 churchgoers. Features being considered for implementation include:
+- Watch past Sunday sermons
+- Details for future HOC 5 events
+- General announcements
+- Weekly letters
+
 TODO
 
 # :hammer: Development
