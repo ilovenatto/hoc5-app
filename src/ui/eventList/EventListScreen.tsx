@@ -1,12 +1,17 @@
 import React from "react";
-import {SafeAreaView, StatusBar, StyleSheet, Text,} from "react-native";
+import {Button, SafeAreaView, StatusBar, StyleSheet, Text,} from "react-native";
+import {useNavigation, StackActions} from "@react-navigation/native";
 
 
 export function EventListScreen() {
+  const navigation = useNavigation();
   return (
     <SafeAreaView style={styles.container}>
       <StatusBar hidden />
       <Text>Hello world Splash</Text>
+      <Button title="Go to Event Detail" onPress={ (event) =>
+        {navigation.dispatch(StackActions.push("EventDetail"));}
+      } />
     </SafeAreaView>
   );
 }

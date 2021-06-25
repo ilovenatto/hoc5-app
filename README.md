@@ -74,6 +74,8 @@ but you also don't need an account to get started.
 We will be using this to run our apps, and only use a simulator if we're desperate.
 * Go find `Expo Go` in the app store for your device and install
 
+Install all the dependencies
+
 # :runner: Run
 ## Running on Expo
 During development, we'll be primarily running our app's using the Expo app on our phone.
