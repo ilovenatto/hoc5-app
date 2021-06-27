@@ -8,6 +8,10 @@ The HOC 5 Mobile App will be used to improve the experience of HOC 5 churchgoers
 - General announcements
 - Weekly letters
 
+USEFUL LINKS:
+- Create a branch
+https://docs.github.com/en/github/collaborating-with-pull-requests/proposing-changes-to-your-work-with-pull-requests/creating-and-deleting-branches-within-your-repository 
+
 TODO
 
 # :hammer: Development
