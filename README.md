@@ -13,6 +13,8 @@ USEFUL LINKS:
 https://docs.github.com/en/github/collaborating-with-pull-requests/proposing-changes-to-your-work-with-pull-requests/creating-and-deleting-branches-within-your-repository 
 - How to do useful things (like creating screens and creating buttons to navigate through screens):
 https://docs.google.com/document/d/1B-VCyDS9k6T-2Ke1cCvIf7Z3Jfl5qAtjTaDILCJ9cfo/edit 
+- Useful features and how to implement:
+https://docs.nativebase.io/
 
 TODO
 
