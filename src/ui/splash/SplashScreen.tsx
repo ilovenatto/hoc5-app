@@ -9,8 +9,12 @@ export function SplashScreen() {
     <SafeAreaView style={styles.container}>
       <StatusBar hidden />
       <Text>Hello world Splash</Text>
-      <Button title={"Goto event list"} onPress={(ev)=> {
+      <Button title={"Go to event list"} onPress={(ev)=> {
         nav.dispatch(StackActions.push("EventList"));
+      }
+      }/>
+      <Button title={"Go to Sermons"} onPress={(ev)=> {
+        nav.dispatch(StackActions.push("Sermon"));
       }
       }/>
     </SafeAreaView>
