@@ -8,7 +8,7 @@ export function EventListScreen() {
   return (
     <SafeAreaView style={styles.container}>
       <StatusBar hidden />
-      <Text>Hello world Splash</Text>
+      <Text>Event List</Text>
       <Button title="Go to Event Detail" onPress={ (event) =>
         {navigation.dispatch(StackActions.push("EventDetail"));}
       } />

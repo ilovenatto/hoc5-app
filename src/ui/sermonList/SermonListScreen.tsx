@@ -2,21 +2,15 @@ import React from "react";
 import {Button, SafeAreaView, StatusBar, StyleSheet, Text,} from "react-native";
 import {StackActions, useNavigation} from "@react-navigation/native";
 
-
-export function SplashScreen() {
-  const nav = useNavigation();
+export function SermonListScreen() {
+  const navigation = useNavigation();
   return (
     <SafeAreaView style={styles.container}>
       <StatusBar hidden />
-      <Text>Hello world Splash</Text>
-      <Button title={"Go to event list"} onPress={(ev)=> {
-        nav.dispatch(StackActions.push("EventList"));
-      }
-      }/>
-      <Button title={"Go to Sermons"} onPress={(ev)=> {
-        nav.dispatch(StackActions.push("Sermon"));
-      }
-      }/>
+      <Text>Sermon List Screen</Text>
+      <Button title="Go to Sermon Detail" onPress={ (event) =>
+      {navigation.dispatch(StackActions.push("SermonDetail"));}
+      } />
     </SafeAreaView>
   );
 }
