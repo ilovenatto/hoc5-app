@@ -16,10 +16,45 @@ import { //Libraries imported that are not being used will appear in a dull blue
   NativeBaseProvider,
   FormControl,
   Pressable,
+  View,
+  FlatList
 } from "native-base"
 import { MaterialIcons, Ionicons, MaterialCommunityIcons } from "@expo/vector-icons"
+import {useNavigation, StackActions} from "@react-navigation/native";
 export function SermonScreen() {
+    // Sermon class defines info for sermon: date, sermon title, pastor, and passage, to be put into array
+    class Sermon {
+        imageURI: string;
+        date: string;
+        title: string;
+        pastor: string;
+        passage: string;
+        constructor(imageURI: string, date: string, title: string, pastor: string, passage: string) {
+            this.imageURI = imageURI;
+            this.date = date;
+            this.title = title;
+            this.pastor = pastor;
+            this.passage = passage;
+        }
+    }
+    // array of sermons wih fake data
+    const fakeSermons = [
+        new Sermon('https://images.squarespace-cdn.com/content/v1/6021ddae8afaaa12b10682d5/1624640797707-H5INPXV7DUCELP0WS8M2/The+Compassion+of+the+lord.png?format=1500w', 'June 27', 'The Compassion of Our Lord', 'Yuji Ogura', 'Luke 8:40-56'), 
+        new Sermon('https://images.squarespace-cdn.com/content/v1/6021ddae8afaaa12b10682d5/1624640797707-H5INPXV7DUCELP0WS8M2/The+Compassion+of+the+lord.png?format=1500w', 'June 20', 'Title of Sermon', 'Name of Pastor', 'Passage'), 
+        new Sermon('https://images.squarespace-cdn.com/content/v1/6021ddae8afaaa12b10682d5/1624640797707-H5INPXV7DUCELP0WS8M2/The+Compassion+of+the+lord.png?format=1500w', 'June 13', 'Finding Grace Through the Law', 'Dean Yuan', 'John 8:2-12')
+    ];
     const [selected, setSelected] = React.useState(1);
+    const navigation = useNavigation();
+
+    // Have no idea if this is right notation, but so i can access the date data from array
+    /*function getDate(sermon: Sermon) {
+        return (
+          <View>
+            <Text>{sermon.date.getMonth}/{sermon.date.getDate}</Text>
+          </View>
+        );
+      }*/
+
   return (
       <ScrollView> 
     <VStack space={10} alignItems="center">
@@ -29,7 +64,8 @@ export function SermonScreen() {
           <Image
             roundedTop="lg"
             source={{
-              uri: "https://images.squarespace-cdn.com/content/v1/6021ddae8afaaa12b10682d5/1624640797707-H5INPXV7DUCELP0WS8M2/The+Compassion+of+the+lord.png?format=1500w",
+            // CHANGE URI INFO HERE
+              uri: fakeSermons[0].imageURI,
             }}
             alt="image"
           />
@@ -46,7 +82,7 @@ export function SermonScreen() {
           px={2}
           py={0.1}
         >
-          SERMONS
+          Sermons
         </Center>
         <Center
           p={1}
@@ -63,13 +99,15 @@ export function SermonScreen() {
             fontSize: "xs",
           }}
         >
-          June 27
+          {/*} CHANGE DATE INFO HERE*/}
+          {fakeSermons[0].date}
         </Center>
       </Box>
       <Stack p={4} space={2}>
         <Stack space={2}>
           <Heading size="md" ml={-1}>
-            The Compassion of Our Lord
+            {/*} CHANGE TITLE INFO HERE*/}
+            {fakeSermons[0].title}
           </Heading>
           <Heading
             size="xs"
@@ -78,11 +116,13 @@ export function SermonScreen() {
             ml={-0.5}
             mt={-1}
           >
-            Pastor Yuji Ogura
+            {/*} CHANGE PASTOR INFO HERE*/}
+            {fakeSermons[0].title}
           </Heading>
         </Stack>
         <Text lineHeight={6} fontWeight={400}>
-          Luke 8:40-56
+          {/*} CHANGE PASSAGE INFO HERE*/}
+          {fakeSermons[0].passage}
 
         </Text>
         <HStack alignItems="center" space={4} justifyContent="space-between">
@@ -117,7 +157,7 @@ export function SermonScreen() {
           <Image
             roundedTop="lg"
             source={{
-              uri: "https://images.squarespace-cdn.com/content/v1/6021ddae8afaaa12b10682d5/1624640797707-H5INPXV7DUCELP0WS8M2/The+Compassion+of+the+lord.png?format=1500w",
+              uri: fakeSermons[1].imageURI,
             }}
             alt="image"
           />
@@ -151,13 +191,13 @@ export function SermonScreen() {
             fontSize: "xs",
           }}
         >
-          Date here
+          {fakeSermons[1].date}
         </Center>
       </Box>
       <Stack p={4} space={2}>
         <Stack space={2}>
           <Heading size="md" ml={-1}>
-            Insert Name of Sermon Here
+          {fakeSermons[1].title}
           </Heading>
           <Heading
             size="xs"
@@ -166,11 +206,11 @@ export function SermonScreen() {
             ml={-0.5}
             mt={-1}
           >
-            Insert Name of Pastor Here
+            {fakeSermons[1].pastor}
           </Heading>
         </Stack>
         <Text lineHeight={6} fontWeight={400}>
-          Insert passage here
+        {fakeSermons[1].passage}
         </Text>
         <HStack alignItems="center" space={4} justifyContent="space-between">
           <HStack alignItems="center">
@@ -238,13 +278,13 @@ export function SermonScreen() {
             fontSize: "xs",
           }}
         >
-          June 13
+          {fakeSermons[2].date}
         </Center>
       </Box>
       <Stack p={4} space={2}>
         <Stack space={2}>
           <Heading size="md" ml={-1}>
-            Finding Grace Through the Law
+          {fakeSermons[2].title}
           </Heading>
           <Heading
             size="xs"
@@ -253,11 +293,11 @@ export function SermonScreen() {
             ml={-0.5}
             mt={-1}
           >
-            Pastor Dean Yuan
+            {fakeSermons[2].pastor}
           </Heading>
         </Stack>
         <Text lineHeight={6} fontWeight={400}>
-          Luke 8:40-56
+        {fakeSermons[2].passage}
         </Text>
         <HStack alignItems="center" space={4} justifyContent="space-between">
           <HStack alignItems="center">
@@ -335,7 +375,9 @@ export function SermonScreen() {
             opacity={selected === 2 ? 1 : 0.6}
             py={2}
             flex={1}
-            onPress={() => setSelected(2)}
+            onPress={ (event) =>
+                {navigation.dispatch(StackActions.push("EventDetail"));}
+              }
           >
             <Center>
               <Icon
@@ -345,7 +387,7 @@ export function SermonScreen() {
                 size="xs"
               />
 
-              <Text color="white" fontSize={14}>Places</Text>
+              <Text color="white" fontSize={14}>Events</Text>
             </Center>
           </Pressable>
           <Pressable
@@ -353,7 +395,9 @@ export function SermonScreen() {
             opacity={selected === 3 ? 1 : 0.5}
             py={2}
             flex={1}
-            onPress={() => setSelected(3)}
+            onPress={ (event) =>
+                {navigation.dispatch(StackActions.push("EventDetail"));}
+              }
           >
             <Center>
               <Icon
@@ -381,60 +425,3 @@ export default () => {
     </NativeBaseProvider>
   )
 }
-
-/*import React from "react";
-import {SafeAreaView, StatusBar, StyleSheet, Text,} from "react-native";
-import { Box, VStack, Center, Heading, NativeBaseProvider } from "native-base"
-
-export function SermonScreen() {
-  return (
-    <VStack space={4} alignItems="center">
-    <Heading>Sermons</Heading>
-    <Box
-    width="70%"
-      bg="primary.400"
-      p={10}
-      _text={{
-        fontSize: "2xl",
-        fontWeight: "bold",
-        color: "white",
-      }}
-    >
-      June 27: The Compassion of our Lord
-    </Box>
-    <Box
-    width="70%"
-      bg="primary.600"
-      p={10}
-      _text={{
-        fontSize: "2xl",
-        fontWeight: "bold",
-        color: "white",
-      }}
-    >
-      June 20: Insert name of sermon here
-    </Box>
-    <Box
-    width="70%"
-      bg="primary.400"
-      p={10}
-      _text={{
-        fontSize: "2xl",
-        fontWeight: "bold",
-        color: "white",
-      }}
-    >
-      June 13: Insert name of sermon here
-    </Box>
-  </VStack>
-  );
-}
-
-const styles = StyleSheet.create({
-  container: {
-    justifyContent: "center",
-    alignItems: "center",
-    flex: 1,
-  },
-});
-*/
