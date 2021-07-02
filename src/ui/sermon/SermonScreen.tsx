@@ -46,15 +46,6 @@ export function SermonScreen() {
     const [selected, setSelected] = React.useState(1);
     const navigation = useNavigation();
 
-    // Have no idea if this is right notation, but so i can access the date data from array
-    /*function getDate(sermon: Sermon) {
-        return (
-          <View>
-            <Text>{sermon.date.getMonth}/{sermon.date.getDate}</Text>
-          </View>
-        );
-      }*/
-
   return (
       <ScrollView> 
     <VStack space={10} alignItems="center">
