@@ -17,7 +17,7 @@ import { //Libraries imported that are not being used will appear in a dull blue
   FormControl,
   Pressable,
   View,
-  FlatList
+  FlatList,
 } from "native-base"
 import { MaterialIcons, Ionicons, MaterialCommunityIcons } from "@expo/vector-icons"
 import {useNavigation, StackActions} from "@react-navigation/native";
@@ -413,7 +413,7 @@ export function SermonScreen() {
       </Box>
     </NativeBaseProvider>
     </ScrollView>
-  )
+  );
 }
 
 export default () => {
