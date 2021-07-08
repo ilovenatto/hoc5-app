@@ -70,7 +70,7 @@ Vscode is your code editor and you'll be spending a lot of time in here.
 ### Install [expo-cli](https://docs.expo.io/get-started/installation/)
 Expo is the react-native framework we're using.
 ```bash
-$ npm install --global expo-cli
+$ yarn global add expo-cli
 ```
 
 Verify that the installation was successful by running `expo whoami`. You're not 
