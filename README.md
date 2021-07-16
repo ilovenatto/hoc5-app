@@ -15,6 +15,8 @@ https://docs.github.com/en/github/collaborating-with-pull-requests/proposing-cha
 https://docs.google.com/document/d/1B-VCyDS9k6T-2Ke1cCvIf7Z3Jfl5qAtjTaDILCJ9cfo/edit 
 - Useful features and how to implement:
 https://docs.nativebase.io/
+- React Tutorial:
+https://reactjs.org/docs/introducing-jsx.html
 
 TODO
 
