@@ -6,22 +6,22 @@ import { //Libraries imported that are not being used will appear in a dull blue
   Icon,
   AspectRatio,
   Image,
+  Text,
   Link,
   Center,
   VStack,
   HStack,
   Stack,
   useColorModeValue,
+  NativeBaseProvider,
   FormControl,
   Pressable,
   View,
   FlatList,
-  Text
 } from "native-base"
-import {SafeAreaView, StatusBar, StyleSheet, Button, } from "react-native";
 import { MaterialIcons, Ionicons, MaterialCommunityIcons } from "@expo/vector-icons"
 import {useNavigation, StackActions} from "@react-navigation/native";
-export function SermonListScreen() {
+export function SermonScreen() {
     // Sermon class defines info for sermon: date, sermon title, pastor, and passage, to be put into array
     class Sermon {
         imageURI: string;
@@ -47,16 +47,8 @@ export function SermonListScreen() {
     const navigation = useNavigation();
 
   return (
-
-
-  <ScrollView> 
-      <SafeAreaView style={styles.container}>
-  <StatusBar hidden />
+      <ScrollView> 
     <VStack space={10} alignItems="center">
-    <Text>Sermon List Screen</Text>
-      <Button title="Go to Sermon Detail" onPress={ (event) =>
-      {navigation.dispatch(StackActions.push("SermonDetail"));}
-      } />
     <Box width={72} bg={useColorModeValue("gray.50", "gray.700")} shadow={1}>
       <Box>
         <AspectRatio ratio={16 / 9}>
@@ -323,119 +315,104 @@ export function SermonListScreen() {
         </HStack>
       </Stack>
     </Box>
-    <Box width={72} bg={useColorModeValue("gray.50", "gray.700")} shadow={1}>
-      <Box>
-        <AspectRatio ratio={16 / 9}>
-          <Image
-            roundedTop="lg"
-            source={{
-            // CHANGE URI INFO HERE
-              uri: fakeSermons[0].imageURI,
-            }}
-            alt="image"
-          />
-        </AspectRatio>
-        <Center
-          bg="red.500"
-          _text={{
-            color: "white",
-            fontWeight: "700",
-            fontSize: "xs",
-          }}
-          position="absolute"
-          bottom={0}
-          px={2}
-          py={0.1}
-        >
-          Sermons
-        </Center>
-        <Center
-          p={1}
-          rounded="full"
-          bg="red.500"
-          boxSize={10}
-          position="absolute"
-          right={0}
-          m={2}
-          _text={{
-            color: "white",
-            textAlign: "center",
-            fontWeight: "700",
-            fontSize: "xs",
-          }}
-        >
-          {/*} CHANGE DATE INFO HERE*/}
-          {fakeSermons[0].date}
-        </Center>
-      </Box>
-      <Stack p={4} space={2}>
-        <Stack space={2}>
-          <Heading size="md" ml={-1}>
-            {/*} CHANGE TITLE INFO HERE*/}
-            {fakeSermons[0].title}
-          </Heading>
-          <Heading
-            size="xs"
-            color={useColorModeValue("red.500", "red.300")}
-            fontWeight="500"
-            ml={-0.5}
-            mt={-1}
-          >
-            {/*} CHANGE PASTOR INFO HERE*/}
-            {fakeSermons[0].title}
-          </Heading>
-        </Stack>
-        <Text lineHeight={6} fontWeight={400}>
-          {/*} CHANGE PASSAGE INFO HERE*/}
-          {fakeSermons[0].passage}
-
-        </Text>
-        <HStack alignItems="center" space={4} justifyContent="space-between">
-          <HStack alignItems="center">
-            <Icon
-              as={<MaterialIcons name="access-time" />}
-              color="gray.500"
-              size="sm"
-            />
-            <Text ml={1} color="gray.500" fontWeight="500">
-              6 mins ago
-            </Text>
-          </HStack>
-          <HStack alignItems="center">
-            <Icon
-              as={<Ionicons name="ios-chatbubbles" />}
-              color="gray.500"
-              size="sm"
-            />
-
-            <Text ml={1} color="gray.500" fontWeight="500">
-              39 comments
-            </Text>
-          </HStack>
-        </HStack>
-      </Stack>
-    </Box>
     </VStack>
 
 
-    
-    </SafeAreaView>
+
+{/*THIS IS FOR THE FOOTER AND ICONS */}
+    <NativeBaseProvider>
+       <Box flex={1} bg="white" safeAreaTop>
+        <Center flex={1}>
+        </Center>
+        <HStack bg="primary.500" alignItems="center" safeAreaBottom shadow={6}>
+          <Pressable
+            //cursor="pointer"
+            opacity={selected === 0 ? 1 : 0.5}
+            py={2}
+            flex={1}
+            onPress={() => setSelected(0)}
+          >
+            <Center>
+              <Icon
+                mb={1}
+                as={<MaterialCommunityIcons name="heart" />}
+                color="white"
+                size="xs"
+              />
+
+              <Text color="white" fontSize={14}>Favorites</Text>
+            </Center>
+          </Pressable>
+          <Pressable
+            //cursor="pointer"
+            opacity={selected === 1 ? 1 : 0.5}
+            py={2}
+            flex={1}
+            onPress={() => setSelected(1)}
+          >
+            <Center>
+              <Icon
+                mb={1}
+                as={<MaterialCommunityIcons name="music-note" />}
+                color="white"
+                size="xs"
+              />
+
+              <Text color="white" fontSize={14}>Music</Text>
+            </Center>
+          </Pressable>
+          <Pressable
+            //cursor="pointer"
+            opacity={selected === 2 ? 1 : 0.6}
+            py={2}
+            flex={1}
+            onPress={ (event) =>
+                {navigation.dispatch(StackActions.push("EventDetail"));}
+              }
+          >
+            <Center>
+              <Icon
+                mb={1}
+                as={<MaterialIcons name="location-pin" />}
+                color="white"
+                size="xs"
+              />
+
+              <Text color="white" fontSize={14}>Events</Text>
+            </Center>
+          </Pressable>
+          <Pressable
+            //cursor="pointer"
+            opacity={selected === 3 ? 1 : 0.5}
+            py={2}
+            flex={1}
+            onPress={ (event) =>
+                {navigation.dispatch(StackActions.push("EventDetail"));}
+              }
+          >
+            <Center>
+              <Icon
+                mb={1}
+                as={<MaterialCommunityIcons name="newspaper" />}
+                color="white"
+                size="xs"
+              />
+              <Text color="white" fontSize={14}>News</Text>
+            </Center>
+          </Pressable>
+        </HStack>
+      </Box>
+    </NativeBaseProvider>
     </ScrollView>
   );
 }
-const styles = StyleSheet.create({
-  container: {
-    justifyContent: "center",
-    alignItems: "center",
-    flex: 1,
-  },
-});
 
 export default () => {
   return (
+    <NativeBaseProvider>
       <Center flex={1}>
-        <SermonListScreen />
+        <SermonScreen />
       </Center>
+    </NativeBaseProvider>
   )
 }
-

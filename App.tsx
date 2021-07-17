@@ -1,4 +1,5 @@
 import * as React from 'react';
+import { NativeBaseProvider, Box } from 'native-base';
 import {NavigationContainer} from '@react-navigation/native';
 import {createStackNavigator} from '@react-navigation/stack';
 import {EventListController} from "./src/ui/eventList/EventListController";
@@ -17,6 +18,9 @@ import firebaseInit from './src/data/FirebaseInit';
 export type EventStackParamList = {
   EventList: undefined;
   EventDetail: undefined;
+  Sermon: undefined;
+  // FOR NEW SCREENS ADD STUFF HERE
+
 };
 export type SermonStackParamList = {
 
@@ -56,6 +60,8 @@ export default function App() {
   });
 
   return (
+    // wrapped the app in NativeBaseProvider
+    <NativeBaseProvider>
     <NavigationContainer>
       <Tab.Navigator
         screenOptions={({ route }) => ({
@@ -76,5 +82,6 @@ export default function App() {
         <Tab.Screen name="Events" component={EventStackScreen} />
       </Tab.Navigator>
     </NavigationContainer>
+    </NativeBaseProvider>
   );
 }

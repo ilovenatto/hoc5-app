@@ -1,15 +1,15 @@
 import React, {useEffect} from "react";
-import {SermonListScreen} from "./SermonListScreen";
+import {SermonScreen} from "./SermonScreen";
 import {LOG} from "../../util/HocLogger";
 
 /**
- * ViewController for {@link SermonListScreen}
+ * ViewController for {@link SermonScreen}
  */
-export function SermonListController() {
+export function SermonController() {
   // Check if logged by trying to query for the account (and only do this once)
   useEffect(() => {
       LOG.debug(`Do initialization stuff`);
   }, []);
 
-  return <SermonListScreen />;
+  return <SermonScreen />;
 }
