@@ -9,7 +9,8 @@ import {SermonListController} from "./src/ui/sermonList/SermonListController";
 import {SermonDetailController} from "./src/ui/sermonDetail/SermonDetailController";
 import Ionicons from "@expo/vector-icons/Ionicons"
 import { useEffect } from 'react';
-import firebaseInit from './src/data/FirebaseInit';
+import firebaseInit from './src/data/Firebase';
+import {LOG} from './src/util/HocLogger';
 
 //https://reactnavigation.org/docs/typescript/
 // Strongly type the route parameters this screen expects
@@ -57,6 +58,11 @@ export default function App() {
 
   useEffect(() => {
     var database = firebaseInit();
+
+    database.ref('test').on('value', (snapshot) => {
+      LOG.debug(snapshot);
+    });
+
   });
 
   return (
