@@ -1,16 +1,36 @@
-import React, {Component} from "react";
+import React, {Component,} from "react";
 import {SafeAreaView, StatusBar, StyleSheet, Text, View,} from "react-native";
+import YoutubePlayer from 'react-native-youtube-iframe';
 import { WebView } from 'react-native-webview';
 import { ScrollView } from "react-native-gesture-handler"
 
+
+
+//prb useful link
+// https://stackoverflow.com/questions/36382935/how-to-prevent-react-native-android-webview-from-running-youtube-in-the-backgrou
 class Sermon1 extends Component {
   render() {
-    return  <View style={styles.container}>
-      <WebView
-    source={{uri: 'https://www.hoc5.church/sermons/the-compassion-of-our-lord'}}
-    style={{ marginTop: 0, width: 380}}
-  />
+    return  (
+    <View style={styles.container}>
+      <YoutubePlayer
+        //ref={this.playerRef}
+        height={300}
+        width={400}
+        videoId={"m9FEgDiY2SE"}
+        //play={this.state.playing}
+        onChangeState={event => console.log(event)}
+        onReady={() => console.log("ready")}
+        onError={e => console.log(e)}
+        onPlaybackQualityChange={q => console.log(q)}
+        volume={50}
+        playbackRate={1}
+        initialPlayerParams={{
+        cc_lang_pref: "us",
+        showClosedCaptions: true
+        }}
+      />
   </View>
+    )
   }
 }
 
@@ -19,11 +39,12 @@ class Notes1 extends Component {
     return  <View style={styles.container}>
       <WebView
     source={{uri: 'https://drive.google.com/file/d/18MO5A05wH_b9zKdMlc_heat49xhWZ8rb/view'}}
-    style={{ marginTop: 0, height: 500, width: 380}}
+    style={{height: 500, width: 380}}
   />
   </View>
   }
 }
+
 
 
 export function SermonDetailScreen1() {
@@ -32,8 +53,8 @@ export function SermonDetailScreen1() {
       <StatusBar hidden />
       <Sermon1/>
       <ScrollView style={{flex:1}}>
-            <Notes1/>
-        </ScrollView>
+        <Notes1/>
+      </ScrollView>
     </SafeAreaView>
   );
 }
@@ -44,7 +65,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     flex: 1,
   },
-  scrollViewContainer: {
-    paddingVertical: 0
+  trialContainer: {
+    flex:2, 
   }
 });

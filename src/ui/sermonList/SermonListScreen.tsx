@@ -51,6 +51,7 @@ export function SermonListScreen() {
     var day = new Date().getDay();
     var hour = new Date().getHours();
     var minute = new Date().getMinutes();
+
     class SundayPopup extends React.Component
     {
       
@@ -110,14 +111,6 @@ export function SermonListScreen() {
   <View style={styles.centeredView}>
   <SundayPopup></SundayPopup>
     </View>
-    {/*
-     <Pressable
-        style={[styles.button, styles.buttonOpen]}
-        onPress={() => setModalVisible(true)}
-      >
-        <Text style={styles.textStyle}>Show Modal</Text>
-      </Pressable>
-    */}
     <VStack space={10} alignItems="center">
     <Box width={72} bg={useColorModeValue("gray.50", "gray.700")} shadow={1}>
       <Box>
