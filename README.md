@@ -15,6 +15,8 @@ https://docs.github.com/en/github/collaborating-with-pull-requests/proposing-cha
 https://docs.google.com/document/d/1B-VCyDS9k6T-2Ke1cCvIf7Z3Jfl5qAtjTaDILCJ9cfo/edit 
 - Useful features and how to implement:
 https://docs.nativebase.io/
+- React Tutorial:
+https://reactjs.org/docs/introducing-jsx.html
 
 TODO
 
@@ -70,7 +72,7 @@ Vscode is your code editor and you'll be spending a lot of time in here.
 ### Install [expo-cli](https://docs.expo.io/get-started/installation/)
 Expo is the react-native framework we're using.
 ```bash
-$ npm install --global expo-cli
+$ yarn global add expo-cli
 ```
 
 Verify that the installation was successful by running `expo whoami`. You're not 
