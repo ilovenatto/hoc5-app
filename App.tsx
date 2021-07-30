@@ -7,6 +7,7 @@ import {createBottomTabNavigator} from "@react-navigation/bottom-tabs";
 import {SermonListController} from "./src/ui/sermonList/SermonListController";
 import {SermonDetailController} from "./src/ui/sermonDetail/SermonDetailController";
 import Ionicons from "@expo/vector-icons/Ionicons"
+import { AppContext, AppContextData } from './src/data/AppContext';
 
 //https://reactnavigation.org/docs/typescript/
 // Strongly type the route parameters this screen expects
@@ -49,25 +50,28 @@ function EventStackScreen() {
 const Tab = createBottomTabNavigator();
 export default function App() {
   return (
-    <NavigationContainer>
-      <Tab.Navigator
-        screenOptions={({ route }) => ({
-          tabBarIcon: ({ focused, color, size }) => {
-            let iconName;
-            if (route.name === 'Events') {
-              iconName = focused
-                ? 'ios-calendar'
-                : 'ios-calendar-outline';
-            } else if (route.name === 'Sermons') {
-              iconName = focused ? 'ios-videocam' : 'ios-videocam-outline';
-            }
-            // @ts-ignore
-            return <Ionicons name={iconName} size={size} color={color} />;
-          },
-        })}>
-        <Tab.Screen name="Events" component={EventStackScreen} />
-        <Tab.Screen name="Sermons" component={SermonStackScreen} />
-      </Tab.Navigator>
-    </NavigationContainer>
+    <AppContext.Provider
+      value={new AppContextData()}>
+      <NavigationContainer>
+        <Tab.Navigator
+          screenOptions={({ route }) => ({
+            tabBarIcon: ({ focused, color, size }) => {
+              let iconName;
+              if (route.name === 'Events') {
+                iconName = focused
+                  ? 'ios-calendar'
+                  : 'ios-calendar-outline';
+              } else if (route.name === 'Sermons') {
+                iconName = focused ? 'ios-videocam' : 'ios-videocam-outline';
+              }
+              // @ts-ignore
+              return <Ionicons name={iconName} size={size} color={color} />;
+            },
+          })}>
+          <Tab.Screen name="Sermons" component={SermonStackScreen} />
+          <Tab.Screen name="Events" component={EventStackScreen} />
+        </Tab.Navigator>
+      </NavigationContainer>
+    </AppContext.Provider>  
   );
 }
