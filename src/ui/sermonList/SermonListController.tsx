@@ -1,12 +1,15 @@
+
 import React from "react";
 import { useContext } from "react";
 import { useEffect } from "react";
 import { AppContext } from "../../data/AppContext";
 import { LOG } from "../../util/HocLogger";
+
 import {SermonListScreen} from "./SermonListScreen";
+import {LOG} from "../../util/HocLogger";
 
 /**
- * ViewController for {@link EventListScreen}
+ * ViewController for {@link SermonListScreen}
  */
 
 
@@ -24,6 +27,7 @@ export function SermonListController() {
       LOG.debug(`${sermonsModel.sermons[i].title}\n`);
     }
   });
+
 
   return <SermonListScreen />;
 }

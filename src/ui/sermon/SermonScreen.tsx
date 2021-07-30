@@ -1,4 +1,4 @@
-import React, {useState} from "react"
+import React from "react"
 import { ScrollView } from "react-native-gesture-handler"
 import { //Libraries imported that are not being used will appear in a dull blue
   Box,
@@ -6,21 +6,22 @@ import { //Libraries imported that are not being used will appear in a dull blue
   Icon,
   AspectRatio,
   Image,
+  Text,
   Link,
   Center,
   VStack,
   HStack,
   Stack,
   useColorModeValue,
+  NativeBaseProvider,
   FormControl,
+  Pressable,
   View,
   FlatList,
-  Text
 } from "native-base"
-import {SafeAreaView, StatusBar, StyleSheet, Button, Alert, Modal, Pressable, DynamicColorIOS} from "react-native";
 import { MaterialIcons, Ionicons, MaterialCommunityIcons } from "@expo/vector-icons"
 import {useNavigation, StackActions} from "@react-navigation/native";
-export function SermonListScreen() {
+export function SermonScreen() {
     // Sermon class defines info for sermon: date, sermon title, pastor, and passage, to be put into array
     class Sermon {
         imageURI: string;
@@ -36,81 +37,17 @@ export function SermonListScreen() {
             this.passage = passage;
         }
     }
-  
-    
     // array of sermons wih fake data
     const fakeSermons = [
         new Sermon('https://images.squarespace-cdn.com/content/v1/6021ddae8afaaa12b10682d5/1624640797707-H5INPXV7DUCELP0WS8M2/The+Compassion+of+the+lord.png?format=1500w', 'June 27', 'The Compassion of Our Lord', 'Yuji Ogura', 'Luke 8:40-56'), 
-        new Sermon('https://images.squarespace-cdn.com/content/v1/6021ddae8afaaa12b10682d5/1624388423275-2CZ7DMA6DYXWG203YUU5/Overcoming+Temptations.png?format=1500w', 'June 20', 'Overcoming Temptations', 'Dean Yuan', 'Matthew 3:16 - 4:11'), 
-        new Sermon('https://images.squarespace-cdn.com/content/v1/6021ddae8afaaa12b10682d5/1623782841348-ZQHPQ42YW8UGOKDY9JFW/finding+grace+through+the+law.png?format=1500w', 'June 13', 'Finding Grace Through the Law', 'Dean Yuan', 'John 8:2-12')
+        new Sermon('https://images.squarespace-cdn.com/content/v1/6021ddae8afaaa12b10682d5/1624640797707-H5INPXV7DUCELP0WS8M2/The+Compassion+of+the+lord.png?format=1500w', 'June 20', 'Title of Sermon', 'Name of Pastor', 'Passage'), 
+        new Sermon('https://images.squarespace-cdn.com/content/v1/6021ddae8afaaa12b10682d5/1624640797707-H5INPXV7DUCELP0WS8M2/The+Compassion+of+the+lord.png?format=1500w', 'June 13', 'Finding Grace Through the Law', 'Dean Yuan', 'John 8:2-12')
     ];
     const [selected, setSelected] = React.useState(1);
     const navigation = useNavigation();
-    // Set false to have modal default to not show up
-    const [modalVisible, setModalVisible] = useState(true);
-    var day = new Date().getDay();
-    var hour = new Date().getHours();
-    var minute = new Date().getMinutes();
 
-    class SundayPopup extends React.Component
-    {
-      
-      render()
-      {
-        // if the day is Sunday and the time is between 9:30 and 10:30 AM
-        //if (1 == 1) 
-        if (day == 0 && ((hour == 9 && minute >= 30) || (hour == 10 && minute <= 30)))
-        {
-        return (
-        <Modal
-        animationType="fade"
-        transparent={true}       
-        visible={modalVisible}
-        onRequestClose={() => {
-          Alert.alert("Modal has been closed.");
-          //setModalVisible(true);
-        }}
-      >
-        <View style={styles.centeredView}>
-          <View style={styles.modalView}>
-            <Text style={styles.modalText}>Would you like to follow along with today's sermon?</Text>
-            <HStack>
-            <Pressable
-              style={[styles.button, styles.buttonClose]}
-              onPress={(event) => {navigation.dispatch(StackActions.push("SermonDetail1")); setModalVisible(!modalVisible)}}
-            >
-              <Text style={styles.textStyle}>Yes </Text>
-            </Pressable>
-            {/*this is a spacer for the two buttons in the pop up*/}
-            <View style={{backgroundColor:'white', flex:0.4, }}>
-            </View>
-            <Pressable
-              style={[styles.button, styles.buttonClose]}
-              onPress={(event) => {setModalVisible(!modalVisible)}}
-            >
-              <Text style={styles.textStyle}>No </Text>
-            </Pressable>
-            </HStack>
-          </View>
-        </View>
-      </Modal>
-      )
-      }
-      else {
-        return (
-          null
-        )
-      } 
-    }
-    }
   return (
-  <ScrollView> 
-      <SafeAreaView style={styles.container}>
-  <StatusBar hidden />
-
-  <View style={styles.centeredView}>
-  <SundayPopup></SundayPopup>
-    </View>
+      <ScrollView> 
     <VStack space={10} alignItems="center">
     <Box width={72} bg={useColorModeValue("gray.50", "gray.700")} shadow={1}>
       <Box>
@@ -154,9 +91,7 @@ export function SermonListScreen() {
           }}
         >
           {/*} CHANGE DATE INFO HERE*/}
-          
           {fakeSermons[0].date}
-
         </Center>
       </Box>
       <Stack p={4} space={2}>
@@ -173,7 +108,7 @@ export function SermonListScreen() {
             mt={-1}
           >
             {/*} CHANGE PASTOR INFO HERE*/}
-            {fakeSermons[0].pastor}
+            {fakeSermons[0].title}
           </Heading>
         </Stack>
         <Text lineHeight={6} fontWeight={400}>
@@ -181,18 +116,6 @@ export function SermonListScreen() {
           {fakeSermons[0].passage}
 
         </Text>
-        <Button title="View Sermon Details" onPress={ (event) =>
-      {navigation.dispatch(StackActions.push("SermonDetail1"));
-      navigation.dispatch(
-        StackActions.replace("SermonDetail1", {
-          // test to see if SermonDetail1 can receive "test" param
-          // NOT IN USE RN
-          uri: "test",
-        })
-      );
-    }
-      
-      } />
         <HStack alignItems="center" space={4} justifyContent="space-between">
           <HStack alignItems="center">
             <Icon
@@ -280,9 +203,6 @@ export function SermonListScreen() {
         <Text lineHeight={6} fontWeight={400}>
         {fakeSermons[1].passage}
         </Text>
-        <Button title="View Sermon Details" onPress={ (event) =>
-      {navigation.dispatch(StackActions.push("SermonDetail2"));}
-      } />
         <HStack alignItems="center" space={4} justifyContent="space-between">
           <HStack alignItems="center">
             <Icon
@@ -315,7 +235,7 @@ export function SermonListScreen() {
           <Image
             roundedTop="lg"
             source={{
-              uri: fakeSermons[2].imageURI,
+              uri: "https://images.squarespace-cdn.com/content/v1/6021ddae8afaaa12b10682d5/1623782841348-ZQHPQ42YW8UGOKDY9JFW/finding+grace+through+the+law.png?format=1500w",
             }}
             alt="image"
           />
@@ -370,9 +290,6 @@ export function SermonListScreen() {
         <Text lineHeight={6} fontWeight={400}>
         {fakeSermons[2].passage}
         </Text>
-        <Button title="View Sermon Details" onPress={ (event) =>
-      {navigation.dispatch(StackActions.push("SermonDetail3"));}
-      } />
         <HStack alignItems="center" space={4} justifyContent="space-between">
           <HStack alignItems="center">
             <Icon
@@ -401,66 +318,101 @@ export function SermonListScreen() {
     </VStack>
 
 
-    
-    </SafeAreaView>
+
+{/*THIS IS FOR THE FOOTER AND ICONS */}
+    <NativeBaseProvider>
+       <Box flex={1} bg="white" safeAreaTop>
+        <Center flex={1}>
+        </Center>
+        <HStack bg="primary.500" alignItems="center" safeAreaBottom shadow={6}>
+          <Pressable
+            //cursor="pointer"
+            opacity={selected === 0 ? 1 : 0.5}
+            py={2}
+            flex={1}
+            onPress={() => setSelected(0)}
+          >
+            <Center>
+              <Icon
+                mb={1}
+                as={<MaterialCommunityIcons name="heart" />}
+                color="white"
+                size="xs"
+              />
+
+              <Text color="white" fontSize={14}>Favorites</Text>
+            </Center>
+          </Pressable>
+          <Pressable
+            //cursor="pointer"
+            opacity={selected === 1 ? 1 : 0.5}
+            py={2}
+            flex={1}
+            onPress={() => setSelected(1)}
+          >
+            <Center>
+              <Icon
+                mb={1}
+                as={<MaterialCommunityIcons name="music-note" />}
+                color="white"
+                size="xs"
+              />
+
+              <Text color="white" fontSize={14}>Music</Text>
+            </Center>
+          </Pressable>
+          <Pressable
+            //cursor="pointer"
+            opacity={selected === 2 ? 1 : 0.6}
+            py={2}
+            flex={1}
+            onPress={ (event) =>
+                {navigation.dispatch(StackActions.push("EventDetail"));}
+              }
+          >
+            <Center>
+              <Icon
+                mb={1}
+                as={<MaterialIcons name="location-pin" />}
+                color="white"
+                size="xs"
+              />
+
+              <Text color="white" fontSize={14}>Events</Text>
+            </Center>
+          </Pressable>
+          <Pressable
+            //cursor="pointer"
+            opacity={selected === 3 ? 1 : 0.5}
+            py={2}
+            flex={1}
+            onPress={ (event) =>
+                {navigation.dispatch(StackActions.push("EventDetail"));}
+              }
+          >
+            <Center>
+              <Icon
+                mb={1}
+                as={<MaterialCommunityIcons name="newspaper" />}
+                color="white"
+                size="xs"
+              />
+              <Text color="white" fontSize={14}>News</Text>
+            </Center>
+          </Pressable>
+        </HStack>
+      </Box>
+    </NativeBaseProvider>
     </ScrollView>
   );
 }
 
-const styles = StyleSheet.create({
-  container: {
-    justifyContent: "center",
-    alignItems: "center",
-    flex: 1,
-  },
-  centeredView: {
-    flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
-    marginTop: 22
-  },
-  modalView: {
-    margin: 20,
-    backgroundColor: "white",
-    borderRadius: 20,
-    padding: 35,
-    alignItems: "center",
-    shadowColor: "#000",
-    shadowOffset: {
-      width: 0,
-      height: 2
-    },
-    shadowOpacity: 0.25,
-    shadowRadius: 4,
-    elevation: 5
-  },
-  button: {
-    borderRadius: 20,
-    padding: 10,
-    elevation: 2
-  },
-  buttonOpen: {
-    backgroundColor: "#F194FF",
-  },
-  buttonClose: {
-    backgroundColor: "#2196F3",
-  },
-  textStyle: {
-    color: "white",
-    fontWeight: "bold",
-    textAlign: "center"
-  },
-  modalText: {
-    marginBottom: 15,
-    textAlign: "center"
-  }
-});
-
 export default () => {
   return (
+    <NativeBaseProvider>
       <Center flex={1}>
-        <SermonListScreen />
+        <SermonScreen />
       </Center>
+    </NativeBaseProvider>
   )
 }
-
