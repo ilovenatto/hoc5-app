@@ -1,4 +1,4 @@
-import React, {useState} from "react"
+import React, {useContext, useState} from "react"
 import { ScrollView } from "react-native-gesture-handler"
 import { //Libraries imported that are not being used will appear in a dull blue
   Box,
@@ -20,6 +20,7 @@ import { //Libraries imported that are not being used will appear in a dull blue
 import {SafeAreaView, StatusBar, StyleSheet, Button, Alert, Modal, Pressable, DynamicColorIOS} from "react-native";
 import { MaterialIcons, Ionicons, MaterialCommunityIcons } from "@expo/vector-icons"
 import {useNavigation, StackActions} from "@react-navigation/native";
+import { AppContext } from "../../data/AppContext";
 export function SermonListScreen() {
     // Sermon class defines info for sermon: date, sermon title, pastor, and passage, to be put into array
     class Sermon {
@@ -36,7 +37,7 @@ export function SermonListScreen() {
             this.passage = passage;
         }
     }
-  
+    const sermonsModel = useContext(AppContext).sermonsModel;
     
     // array of sermons wih fake data
     const fakeSermons = [
@@ -82,8 +83,7 @@ export function SermonListScreen() {
               <Text style={styles.textStyle}>Yes </Text>
             </Pressable>
             {/*this is a spacer for the two buttons in the pop up*/}
-            <View style={{backgroundColor:'white', flex:0.4, }}>
-            </View>
+            <View style={{backgroundColor:'white', flex:0.4, }}></View>
             <Pressable
               style={[styles.button, styles.buttonClose]}
               onPress={(event) => {setModalVisible(!modalVisible)}}
@@ -96,314 +96,143 @@ export function SermonListScreen() {
       </Modal>
       )
       }
-      else {
-        return (
-          null
-        )
-      } 
+        else 
+        {
+          return (
+            null
+          )
+        } 
+      }
     }
+    
+    class SermonsCardList extends React.Component {
+      render() {
+        let row = [];
+        for (let i = 0; i < sermonsModel.sermonCount; ++i) {
+          // props youtubeVideoID and notesURL are needed to be passed to SermonDetail
+          row.push(<SermonsCard key={i} val={i} youtubeVideoID={sermonsModel.sermons[i].youtubeVideoID} notesURL={sermonsModel.sermons[i].notesURL}/>)
+        }
+        return <VStack>{row}</VStack>
+      }
     }
+    //necessary for passing props in Typescript
+    interface ValPasser {
+      val: number;
+      youtubeVideoID: string;
+      notesURL: string;
+      //val is the "sermon number" or where the sermon is in the list/array
+      //names are arbritrary, I just choose to give youtubeVideoID and notesURL the same name as the original variables in the Sermon interface (in Sermon.ts)
+    }
+    function SermonsCard(props:ValPasser) {
+      return (
+      //this view is to space out the sermon cars evenly
+      <View style={{height:420,}}>
+        <Box width={72} bg={useColorModeValue("gray.50", "gray.700")} shadow={1}>
+          <Box>
+            <AspectRatio ratio={16 / 9}>
+            <Image
+              roundedTop="lg"
+              source={{
+              uri: sermonsModel.sermons[props.val].thumbnailURL,
+              }}
+              alt="image"
+            />
+            </AspectRatio>
+            <Center
+              bg="red.500"
+              _text={{
+              color: "white",
+              fontWeight: "700",
+              fontSize: "xs",
+              }}
+              position="absolute"
+              bottom={0}
+              px={2}
+              py={0.1}
+            >
+            <Text color="white">SERMONS</Text>
+            </Center>
+            <Center
+              p={1}
+              rounded="full"
+              bg="red.500"
+              boxSize={10}
+              position="absolute"
+              right={0}
+              m={2}
+              _text={{
+              color: "white",
+              textAlign: "center",
+              fontWeight: "700",
+              fontSize: "xs",
+              }}
+            >
+              <Text color="white">{sermonsModel.sermons[props.val].month}/{sermonsModel.sermons[props.val].date}</Text>
+            </Center>
+          </Box>
+          <Stack p={4} space={2}>
+            <Stack space={2}>
+              <Heading size="md" ml={-1}>
+                {sermonsModel.sermons[props.val].title}
+              </Heading>
+              <Heading
+                size="xs"
+                color={useColorModeValue("red.500", "red.300")}
+                fontWeight="500"
+                ml={-0.5}
+                mt={-1}
+              >
+                <Text>{sermonsModel.sermons[props.val].speakerName}</Text>
+              </Heading>
+           </Stack>
+            <Text lineHeight={6} fontWeight={400}>
+              {sermonsModel.sermons[props.val].passage}
+            </Text>
+            <Button title="View Sermon Details" onPress={ (event) =>
+              {navigation.dispatch(StackActions.push("SermonDetail1", {youtubeVidID: props.youtubeVideoID, notesURL: props.notesURL} ));}
+            } />
+            <HStack alignItems="center" space={4} justifyContent="space-between">
+              <HStack alignItems="center">
+                <Icon
+                  as={<MaterialIcons name="access-time" />}
+                  color="gray.500"
+                  size="sm"
+                />
+                 <Text ml={1} color="gray.500" fontWeight="500">
+                     6 mins ago
+                </Text>
+              </HStack>
+              <HStack alignItems="center">
+                <Icon
+                  as={<Ionicons name="ios-chatbubbles" />}
+                  color="gray.500"
+                  size="sm"
+                />
+
+                <Text ml={1} color="gray.500" fontWeight="500">
+                  39 comments
+                </Text>
+              </HStack>
+            </HStack>
+          </Stack>
+        </Box>
+      </View>
+      )
+    }
+
+    
   return (
   <ScrollView> 
       <SafeAreaView style={styles.container}>
-  <StatusBar hidden />
-
-  <View style={styles.centeredView}>
-  <SundayPopup></SundayPopup>
-    </View>
-    <VStack space={10} alignItems="center">
-    <Box width={72} bg={useColorModeValue("gray.50", "gray.700")} shadow={1}>
-      <Box>
-        <AspectRatio ratio={16 / 9}>
-          <Image
-            roundedTop="lg"
-            source={{
-            // CHANGE URI INFO HERE
-              uri: fakeSermons[0].imageURI,
-            }}
-            alt="image"
-          />
-        </AspectRatio>
-        <Center
-          bg="red.500"
-          _text={{
-            color: "white",
-            fontWeight: "700",
-            fontSize: "xs",
-          }}
-          position="absolute"
-          bottom={0}
-          px={2}
-          py={0.1}
-        >
-          Sermons
-        </Center>
-        <Center
-          p={1}
-          rounded="full"
-          bg="red.500"
-          boxSize={10}
-          position="absolute"
-          right={0}
-          m={2}
-          _text={{
-            color: "white",
-            textAlign: "center",
-            fontWeight: "700",
-            fontSize: "xs",
-          }}
-        >
-          {/*} CHANGE DATE INFO HERE*/}
-          
-          {fakeSermons[0].date}
-
-        </Center>
-      </Box>
-      <Stack p={4} space={2}>
-        <Stack space={2}>
-          <Heading size="md" ml={-1}>
-            {/*} CHANGE TITLE INFO HERE*/}
-            {fakeSermons[0].title}
-          </Heading>
-          <Heading
-            size="xs"
-            color={useColorModeValue("red.500", "red.300")}
-            fontWeight="500"
-            ml={-0.5}
-            mt={-1}
-          >
-            {/*} CHANGE PASTOR INFO HERE*/}
-            {fakeSermons[0].pastor}
-          </Heading>
-        </Stack>
-        <Text lineHeight={6} fontWeight={400}>
-          {/*} CHANGE PASSAGE INFO HERE*/}
-          {fakeSermons[0].passage}
-
-        </Text>
-        <Button title="View Sermon Details" onPress={ (event) =>
-      {navigation.dispatch(StackActions.push("SermonDetail1"));
-      navigation.dispatch(
-        StackActions.replace("SermonDetail1", {
-          // test to see if SermonDetail1 can receive "test" param
-          // NOT IN USE RN
-          uri: "test",
-        })
-      );
-    }
-      
-      } />
-        <HStack alignItems="center" space={4} justifyContent="space-between">
-          <HStack alignItems="center">
-            <Icon
-              as={<MaterialIcons name="access-time" />}
-              color="gray.500"
-              size="sm"
-            />
-            <Text ml={1} color="gray.500" fontWeight="500">
-              6 mins ago
-            </Text>
-          </HStack>
-          <HStack alignItems="center">
-            <Icon
-              as={<Ionicons name="ios-chatbubbles" />}
-              color="gray.500"
-              size="sm"
-            />
-
-            <Text ml={1} color="gray.500" fontWeight="500">
-              39 comments
-            </Text>
-          </HStack>
-        </HStack>
-      </Stack>
-    </Box>
-
-    <Box width={72} bg={useColorModeValue("gray.50", "gray.700")} shadow={1}>
-      <Box>
-        <AspectRatio ratio={16 / 9}>
-          <Image
-            roundedTop="lg"
-            source={{
-              uri: fakeSermons[1].imageURI,
-            }}
-            alt="image"
-          />
-        </AspectRatio>
-        <Center
-          bg="red.500"
-          _text={{
-            color: "white",
-            fontWeight: "700",
-            fontSize: "xs",
-          }}
-          position="absolute"
-          bottom={0}
-          px={2}
-          py={0.1}
-        >
-          SERMONS
-        </Center>
-        <Center
-          p={1}
-          rounded="full"
-          bg="red.500"
-          boxSize={10}
-          position="absolute"
-          right={0}
-          m={2}
-          _text={{
-            color: "white",
-            textAlign: "center",
-            fontWeight: "700",
-            fontSize: "xs",
-          }}
-        >
-          {fakeSermons[1].date}
-        </Center>
-      </Box>
-      <Stack p={4} space={2}>
-        <Stack space={2}>
-          <Heading size="md" ml={-1}>
-          {fakeSermons[1].title}
-          </Heading>
-          <Heading
-            size="xs"
-            color={useColorModeValue("red.500", "red.300")}
-            fontWeight="500"
-            ml={-0.5}
-            mt={-1}
-          >
-            {fakeSermons[1].pastor}
-          </Heading>
-        </Stack>
-        <Text lineHeight={6} fontWeight={400}>
-        {fakeSermons[1].passage}
-        </Text>
-        <Button title="View Sermon Details" onPress={ (event) =>
-      {navigation.dispatch(StackActions.push("SermonDetail2"));}
-      } />
-        <HStack alignItems="center" space={4} justifyContent="space-between">
-          <HStack alignItems="center">
-            <Icon
-              as={<MaterialIcons name="access-time" />}
-              color="gray.500"
-              size="sm"
-            />
-            <Text ml={1} color="gray.500" fontWeight="500">
-              6 mins ago
-            </Text>
-          </HStack>
-          <HStack alignItems="center">
-            <Icon
-              as={<Ionicons name="ios-chatbubbles" />}
-              color="gray.500"
-              size="sm"
-            />
-
-            <Text ml={1} color="gray.500" fontWeight="500">
-              39 comments
-            </Text>
-          </HStack>
-        </HStack>
-      </Stack>
-    </Box>
-
-    <Box width={72} bg={useColorModeValue("gray.50", "gray.700")} shadow={1}>
-      <Box>
-        <AspectRatio ratio={16 / 9}>
-          <Image
-            roundedTop="lg"
-            source={{
-              uri: fakeSermons[2].imageURI,
-            }}
-            alt="image"
-          />
-        </AspectRatio>
-        <Center
-          bg="red.500"
-          _text={{
-            color: "white",
-            fontWeight: "700",
-            fontSize: "xs",
-          }}
-          position="absolute"
-          bottom={0}
-          px={2}
-          py={0.1}
-        >
-          SERMONS
-        </Center>
-        <Center
-          p={1}
-          rounded="full"
-          bg="red.500"
-          boxSize={10}
-          position="absolute"
-          right={0}
-          m={2}
-          _text={{
-            color: "white",
-            textAlign: "center",
-            fontWeight: "700",
-            fontSize: "xs",
-          }}
-        >
-          {fakeSermons[2].date}
-        </Center>
-      </Box>
-      <Stack p={4} space={2}>
-        <Stack space={2}>
-          <Heading size="md" ml={-1}>
-          {fakeSermons[2].title}
-          </Heading>
-          <Heading
-            size="xs"
-            color={useColorModeValue("red.500", "red.300")}
-            fontWeight="500"
-            ml={-0.5}
-            mt={-1}
-          >
-            {fakeSermons[2].pastor}
-          </Heading>
-        </Stack>
-        <Text lineHeight={6} fontWeight={400}>
-        {fakeSermons[2].passage}
-        </Text>
-        <Button title="View Sermon Details" onPress={ (event) =>
-      {navigation.dispatch(StackActions.push("SermonDetail3"));}
-      } />
-        <HStack alignItems="center" space={4} justifyContent="space-between">
-          <HStack alignItems="center">
-            <Icon
-              as={<MaterialIcons name="access-time" />}
-              color="gray.500"
-              size="sm"
-            />
-            <Text ml={1} color="gray.500" fontWeight="500">
-              6 mins ago
-            </Text>
-          </HStack>
-          <HStack alignItems="center">
-            <Icon
-              as={<Ionicons name="ios-chatbubbles" />}
-              color="gray.500"
-              size="sm"
-            />
-
-            <Text ml={1} color="gray.500" fontWeight="500">
-              39 comments
-            </Text>
-          </HStack>
-        </HStack>
-      </Stack>
-    </Box>
-    </VStack>
-
-
-    
-    </SafeAreaView>
-    </ScrollView>
+        <StatusBar hidden />
+        <View style={styles.centeredView}>
+          <SundayPopup></SundayPopup>
+        </View>
+        <VStack space={10} alignItems="center">
+          <SermonsCardList />
+        </VStack>
+      </SafeAreaView>
+  </ScrollView>
   );
 }
 

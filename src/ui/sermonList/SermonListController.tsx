@@ -3,7 +3,6 @@ import React from "react";
 import { useContext } from "react";
 import { useEffect } from "react";
 import { AppContext } from "../../data/AppContext";
-import { LOG } from "../../util/HocLogger";
 
 import {SermonListScreen} from "./SermonListScreen";
 import {LOG} from "../../util/HocLogger";

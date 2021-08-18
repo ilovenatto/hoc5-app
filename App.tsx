@@ -63,7 +63,7 @@ function EventStackScreen() {
 const Tab = createBottomTabNavigator();
 export default function App() {
   return (
-
+<NativeBaseProvider>
     <AppContext.Provider
       value={new AppContextData()}>
       <NavigationContainer>
@@ -87,6 +87,6 @@ export default function App() {
         </Tab.Navigator>
       </NavigationContainer>
     </AppContext.Provider>  
-
+    </NativeBaseProvider>
   );
 }
