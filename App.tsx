@@ -6,9 +6,7 @@ import {EventListController} from "./src/ui/eventList/EventListController";
 import {EventDetailController} from "./src/ui/eventDetail/EventDetailController";
 import {createBottomTabNavigator} from "@react-navigation/bottom-tabs";
 import {SermonListController} from "./src/ui/sermonList/SermonListController";
-import {SermonDetailController1} from "./src/ui/sermonDetail/SermonDetailController1";
-import {SermonDetailController2} from "./src/ui/sermonDetail/SermonDetailController2";
-import {SermonDetailController3} from "./src/ui/sermonDetail/SermonDetailController3";
+import {SermonDetailController} from "./src/ui/sermonDetail/SermonDetailController";
 import Ionicons from "@expo/vector-icons/Ionicons"
 import { AppContext, AppContextData } from './src/data/AppContext';
 
@@ -29,9 +27,7 @@ export type EventStackParamList = {
 export type SermonStackParamList = {
 
   SermonList: undefined;
-  SermonDetail1: undefined;
-  SermonDetail2: undefined;
-  SermonDetail3: undefined;
+  SermonDetail: undefined;
 };
 
 // Sermons
@@ -40,9 +36,7 @@ function SermonStackScreen() {
   return (
     <SermonStack.Navigator>
       <SermonStack.Screen name="SermonList" component={SermonListController} />
-      <SermonStack.Screen name="SermonDetail1" component={SermonDetailController1} />
-      <SermonStack.Screen name="SermonDetail2" component={SermonDetailController2} />
-      <SermonStack.Screen name="SermonDetail3" component={SermonDetailController3} />
+      <SermonStack.Screen name="SermonDetail" component={SermonDetailController} />
     </SermonStack.Navigator>
   );
 }

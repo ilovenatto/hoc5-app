@@ -1,22 +1,24 @@
-import React, {Component,} from "react";
+import React, {Component, useContext,} from "react";
 import {SafeAreaView, StatusBar, StyleSheet, Text, View,} from "react-native";
 import YoutubePlayer from 'react-native-youtube-iframe';
 import { WebView } from 'react-native-webview';
 import { ScrollView } from "react-native-gesture-handler"
+import { AppContext } from "../../data/AppContext";
 
 
 
-//prb useful link
+//type SermonDetailRouteProp = RouteProp<SermonStackParamList, "SermonDetail1">;
+// prb useful link
 // https://stackoverflow.com/questions/36382935/how-to-prevent-react-native-android-webview-from-running-youtube-in-the-backgrou
-class Sermon3 extends Component {
-  render() {
+function Sermon() {
+  const sermonsModel = useContext(AppContext).sermonsModel;
     return  (
     <View style={styles.container}>
       <YoutubePlayer
         //ref={this.playerRef}
         height={300}
         width={400}
-        videoId={"gNLvdGd7_Yg"}
+        videoId={sermonsModel.sermons[0].youtubeVideoID}
         //play={this.state.playing}
         onChangeState={event => console.log(event)}
         onReady={() => console.log("ready")}
@@ -31,29 +33,28 @@ class Sermon3 extends Component {
       />
   </View>
     )
-  }
 }
 
-class Notes3 extends Component {
-  render() {
+function Notes() {
+  const sermonsModel = useContext(AppContext).sermonsModel;
     return  <View style={styles.container}>
       <WebView
-    source={{uri: 'https://drive.google.com/file/d/18MO5A05wH_b9zKdMlc_heat49xhWZ8rb/view'}}
+    source={{uri: sermonsModel.sermons[0].notesURL}}
     style={{height: 500, width: 380}}
   />
   </View>
-  }
 }
 
 
 
-export function SermonDetailScreen3() {
+export function SermonDetailScreen() {
+
   return (
     <SafeAreaView style={styles.container}>
       <StatusBar hidden />
-      <Sermon3/>
+      <Sermon />
       <ScrollView style={{flex:1}}>
-        <Notes3/>
+        <Notes/>
       </ScrollView>
     </SafeAreaView>
   );

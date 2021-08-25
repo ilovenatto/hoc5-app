@@ -22,29 +22,9 @@ import { MaterialIcons, Ionicons, MaterialCommunityIcons } from "@expo/vector-ic
 import {useNavigation, StackActions} from "@react-navigation/native";
 import { AppContext } from "../../data/AppContext";
 export function SermonListScreen() {
-    // Sermon class defines info for sermon: date, sermon title, pastor, and passage, to be put into array
-    class Sermon {
-        imageURI: string;
-        date: string;
-        title: string;
-        pastor: string;
-        passage: string;
-        constructor(imageURI: string, date: string, title: string, pastor: string, passage: string) {
-            this.imageURI = imageURI;
-            this.date = date;
-            this.title = title;
-            this.pastor = pastor;
-            this.passage = passage;
-        }
-    }
+    
     const sermonsModel = useContext(AppContext).sermonsModel;
     
-    // array of sermons wih fake data
-    const fakeSermons = [
-        new Sermon('https://images.squarespace-cdn.com/content/v1/6021ddae8afaaa12b10682d5/1624640797707-H5INPXV7DUCELP0WS8M2/The+Compassion+of+the+lord.png?format=1500w', 'June 27', 'The Compassion of Our Lord', 'Yuji Ogura', 'Luke 8:40-56'), 
-        new Sermon('https://images.squarespace-cdn.com/content/v1/6021ddae8afaaa12b10682d5/1624388423275-2CZ7DMA6DYXWG203YUU5/Overcoming+Temptations.png?format=1500w', 'June 20', 'Overcoming Temptations', 'Dean Yuan', 'Matthew 3:16 - 4:11'), 
-        new Sermon('https://images.squarespace-cdn.com/content/v1/6021ddae8afaaa12b10682d5/1623782841348-ZQHPQ42YW8UGOKDY9JFW/finding+grace+through+the+law.png?format=1500w', 'June 13', 'Finding Grace Through the Law', 'Dean Yuan', 'John 8:2-12')
-    ];
     const [selected, setSelected] = React.useState(1);
     const navigation = useNavigation();
     // Set false to have modal default to not show up
@@ -189,7 +169,7 @@ export function SermonListScreen() {
               {sermonsModel.sermons[props.val].passage}
             </Text>
             <Button title="View Sermon Details" onPress={ (event) =>
-              {navigation.dispatch(StackActions.push("SermonDetail1", {youtubeVidID: props.youtubeVideoID, notesURL: props.notesURL} ));}
+              {navigation.dispatch(StackActions.push("SermonDetail", {youtubeVidID: props.youtubeVideoID, notesURL: props.notesURL} ));}
             } />
             <HStack alignItems="center" space={4} justifyContent="space-between">
               <HStack alignItems="center">
