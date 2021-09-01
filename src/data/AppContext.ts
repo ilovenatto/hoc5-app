@@ -9,6 +9,7 @@ export class AppContextData {
     
     sermonsModel: AllSermonsModel;
     private sermonsUpdater: SermonsModelUpdater;
+  sermons: any;
 
     constructor() {
         this.sermonsModel = new AllSermonsModel();
