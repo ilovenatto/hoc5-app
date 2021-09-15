@@ -83,13 +83,10 @@ export function SermonDetailScreen(props: PropsPasser) {
  
      <Sermon sermonIndexForVid = {props.sermonIndex}/>
  
-     <ScrollView style={{flex:1}}>
- 
        {/* Passing in the sermonIndex to the Notes function so the Sermon function can actually obtain the value */}
  
        <Notes sermonIndexForNotes = {props.sermonIndex}/>
  
-     </ScrollView>
    </SafeAreaView>
  );
 }
