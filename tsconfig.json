@@ -4,5 +4,7 @@
     "strict": true,
     "useDefineForClassFields": true,
     "jsx": "react",
+    "esModuleInterop": true,
+    "allowSyntheticDefaultImports": true
   }
 }
