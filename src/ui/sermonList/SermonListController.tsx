@@ -1,15 +1,50 @@
-import React, {useEffect} from "react";
+
+import React from "react";
+import { useContext } from "react";
+import { useEffect } from "react";
+import { AppContext } from "../../data/AppContext";
+
 import {SermonListScreen} from "./SermonListScreen";
 import {LOG} from "../../util/HocLogger";
 
 /**
  * ViewController for {@link SermonListScreen}
  */
+
+
 export function SermonListController() {
-  // Check if logged by trying to query for the account (and only do this once)
+
+  // the following code is a demonstration on how to access 
+  // the sermon data from any react component within the app
+
+  useContext(AppContext)
+
+  const sermonsModel = useContext(AppContext).sermonsModel;
+
   useEffect(() => {
-      LOG.debug(`Do initialization stuff`);
-  }, []);
+    for (let i = 0; i < sermonsModel.sermonCount; ++i) {
+      LOG.debug(`${sermonsModel.sermons[i].title}\n`);
+    }
+  });
+
 
   return <SermonListScreen />;
 }
+
+// the following code implements basically the same thing as above, but shows
+// how to access the sermons model when the component is written as a class
+
+// export class SermonListController extends React.Component {
+
+//   render() {
+
+//     let sermonsModel = this.context.sermonsModel;
+
+//     for (let i = 0; i < sermonsModel.sermonCount; ++i) {
+//       LOG.debug(`${sermonsModel.sermons[i].title}\n`);
+//     }
+
+//     return <SermonListScreen />;
+//   }
+// }
+// SermonListController.contextType = AppContext;

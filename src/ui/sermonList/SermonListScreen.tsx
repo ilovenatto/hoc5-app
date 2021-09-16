@@ -1,441 +1,348 @@
-import React from "react"
+import React, {useContext, useState} from "react"
 import { ScrollView } from "react-native-gesture-handler"
 import { //Libraries imported that are not being used will appear in a dull blue
-  Box,
-  Heading,
-  Icon,
-  AspectRatio,
-  Image,
-  Link,
-  Center,
-  VStack,
-  HStack,
-  Stack,
-  useColorModeValue,
-  FormControl,
-  Pressable,
-  View,
-  FlatList,
-  Text
+ Box,
+ Heading,
+ Icon,
+ AspectRatio,
+ Image,
+ Link,
+ Center,
+ VStack,
+ HStack,
+ Stack,
+ useColorModeValue,
+ FormControl,
+ View,
+ FlatList,
+ Text
 } from "native-base"
-import {SafeAreaView, StatusBar, StyleSheet, Button, } from "react-native";
+import {SafeAreaView, StatusBar, StyleSheet, Button, Alert, Modal, Pressable, DynamicColorIOS} from "react-native";
 import { MaterialIcons, Ionicons, MaterialCommunityIcons } from "@expo/vector-icons"
 import {useNavigation, StackActions} from "@react-navigation/native";
+import { AppContext } from "../../data/AppContext";
+ 
+ 
 export function SermonListScreen() {
-    // Sermon class defines info for sermon: date, sermon title, pastor, and passage, to be put into array
-    class Sermon {
-        imageURI: string;
-        date: string;
-        title: string;
-        pastor: string;
-        passage: string;
-        constructor(imageURI: string, date: string, title: string, pastor: string, passage: string) {
-            this.imageURI = imageURI;
-            this.date = date;
-            this.title = title;
-            this.pastor = pastor;
-            this.passage = passage;
-        }
-    }
-    // array of sermons wih fake data
-    const fakeSermons = [
-        new Sermon('https://images.squarespace-cdn.com/content/v1/6021ddae8afaaa12b10682d5/1624640797707-H5INPXV7DUCELP0WS8M2/The+Compassion+of+the+lord.png?format=1500w', 'June 27', 'The Compassion of Our Lord', 'Yuji Ogura', 'Luke 8:40-56'), 
-        new Sermon('https://images.squarespace-cdn.com/content/v1/6021ddae8afaaa12b10682d5/1624640797707-H5INPXV7DUCELP0WS8M2/The+Compassion+of+the+lord.png?format=1500w', 'June 20', 'Title of Sermon', 'Name of Pastor', 'Passage'), 
-        new Sermon('https://images.squarespace-cdn.com/content/v1/6021ddae8afaaa12b10682d5/1624640797707-H5INPXV7DUCELP0WS8M2/The+Compassion+of+the+lord.png?format=1500w', 'June 13', 'Finding Grace Through the Law', 'Dean Yuan', 'John 8:2-12')
-    ];
-    const [selected, setSelected] = React.useState(1);
-    const navigation = useNavigation();
-
-  return (
-
-
-  <ScrollView> 
-      <SafeAreaView style={styles.container}>
-  <StatusBar hidden />
-    <VStack space={10} alignItems="center">
-    <Text>Sermon List Screen</Text>
-      <Button title="Go to Sermon Detail" onPress={ (event) =>
-      {navigation.dispatch(StackActions.push("SermonDetail"));}
-      } />
-    <Box width={72} bg={useColorModeValue("gray.50", "gray.700")} shadow={1}>
-      <Box>
-        <AspectRatio ratio={16 / 9}>
-          <Image
-            roundedTop="lg"
-            source={{
-            // CHANGE URI INFO HERE
-              uri: fakeSermons[0].imageURI,
-            }}
-            alt="image"
-          />
-        </AspectRatio>
-        <Center
-          bg="red.500"
-          _text={{
-            color: "white",
-            fontWeight: "700",
-            fontSize: "xs",
-          }}
-          position="absolute"
-          bottom={0}
-          px={2}
-          py={0.1}
-        >
-          Sermons
-        </Center>
-        <Center
-          p={1}
-          rounded="full"
-          bg="red.500"
-          boxSize={10}
-          position="absolute"
-          right={0}
-          m={2}
-          _text={{
-            color: "white",
-            textAlign: "center",
-            fontWeight: "700",
-            fontSize: "xs",
-          }}
-        >
-          {/*} CHANGE DATE INFO HERE*/}
-          {fakeSermons[0].date}
-        </Center>
-      </Box>
-      <Stack p={4} space={2}>
-        <Stack space={2}>
-          <Heading size="md" ml={-1}>
-            {/*} CHANGE TITLE INFO HERE*/}
-            {fakeSermons[0].title}
-          </Heading>
-          <Heading
-            size="xs"
-            color={useColorModeValue("red.500", "red.300")}
-            fontWeight="500"
-            ml={-0.5}
-            mt={-1}
-          >
-            {/*} CHANGE PASTOR INFO HERE*/}
-            {fakeSermons[0].title}
-          </Heading>
-        </Stack>
-        <Text lineHeight={6} fontWeight={400}>
-          {/*} CHANGE PASSAGE INFO HERE*/}
-          {fakeSermons[0].passage}
-
-        </Text>
-        <HStack alignItems="center" space={4} justifyContent="space-between">
-          <HStack alignItems="center">
-            <Icon
-              as={<MaterialIcons name="access-time" />}
-              color="gray.500"
-              size="sm"
-            />
-            <Text ml={1} color="gray.500" fontWeight="500">
-              6 mins ago
-            </Text>
-          </HStack>
-          <HStack alignItems="center">
-            <Icon
-              as={<Ionicons name="ios-chatbubbles" />}
-              color="gray.500"
-              size="sm"
-            />
-
-            <Text ml={1} color="gray.500" fontWeight="500">
-              39 comments
-            </Text>
-          </HStack>
-        </HStack>
-      </Stack>
-    </Box>
-
-    <Box width={72} bg={useColorModeValue("gray.50", "gray.700")} shadow={1}>
-      <Box>
-        <AspectRatio ratio={16 / 9}>
-          <Image
-            roundedTop="lg"
-            source={{
-              uri: fakeSermons[1].imageURI,
-            }}
-            alt="image"
-          />
-        </AspectRatio>
-        <Center
-          bg="red.500"
-          _text={{
-            color: "white",
-            fontWeight: "700",
-            fontSize: "xs",
-          }}
-          position="absolute"
-          bottom={0}
-          px={2}
-          py={0.1}
-        >
-          SERMONS
-        </Center>
-        <Center
-          p={1}
-          rounded="full"
-          bg="red.500"
-          boxSize={10}
-          position="absolute"
-          right={0}
-          m={2}
-          _text={{
-            color: "white",
-            textAlign: "center",
-            fontWeight: "700",
-            fontSize: "xs",
-          }}
-        >
-          {fakeSermons[1].date}
-        </Center>
-      </Box>
-      <Stack p={4} space={2}>
-        <Stack space={2}>
-          <Heading size="md" ml={-1}>
-          {fakeSermons[1].title}
-          </Heading>
-          <Heading
-            size="xs"
-            color={useColorModeValue("red.500", "red.300")}
-            fontWeight="500"
-            ml={-0.5}
-            mt={-1}
-          >
-            {fakeSermons[1].pastor}
-          </Heading>
-        </Stack>
-        <Text lineHeight={6} fontWeight={400}>
-        {fakeSermons[1].passage}
-        </Text>
-        <HStack alignItems="center" space={4} justifyContent="space-between">
-          <HStack alignItems="center">
-            <Icon
-              as={<MaterialIcons name="access-time" />}
-              color="gray.500"
-              size="sm"
-            />
-            <Text ml={1} color="gray.500" fontWeight="500">
-              6 mins ago
-            </Text>
-          </HStack>
-          <HStack alignItems="center">
-            <Icon
-              as={<Ionicons name="ios-chatbubbles" />}
-              color="gray.500"
-              size="sm"
-            />
-
-            <Text ml={1} color="gray.500" fontWeight="500">
-              39 comments
-            </Text>
-          </HStack>
-        </HStack>
-      </Stack>
-    </Box>
-
-    <Box width={72} bg={useColorModeValue("gray.50", "gray.700")} shadow={1}>
-      <Box>
-        <AspectRatio ratio={16 / 9}>
-          <Image
-            roundedTop="lg"
-            source={{
-              uri: "https://images.squarespace-cdn.com/content/v1/6021ddae8afaaa12b10682d5/1623782841348-ZQHPQ42YW8UGOKDY9JFW/finding+grace+through+the+law.png?format=1500w",
-            }}
-            alt="image"
-          />
-        </AspectRatio>
-        <Center
-          bg="red.500"
-          _text={{
-            color: "white",
-            fontWeight: "700",
-            fontSize: "xs",
-          }}
-          position="absolute"
-          bottom={0}
-          px={2}
-          py={0.1}
-        >
-          SERMONS
-        </Center>
-        <Center
-          p={1}
-          rounded="full"
-          bg="red.500"
-          boxSize={10}
-          position="absolute"
-          right={0}
-          m={2}
-          _text={{
-            color: "white",
-            textAlign: "center",
-            fontWeight: "700",
-            fontSize: "xs",
-          }}
-        >
-          {fakeSermons[2].date}
-        </Center>
-      </Box>
-      <Stack p={4} space={2}>
-        <Stack space={2}>
-          <Heading size="md" ml={-1}>
-          {fakeSermons[2].title}
-          </Heading>
-          <Heading
-            size="xs"
-            color={useColorModeValue("red.500", "red.300")}
-            fontWeight="500"
-            ml={-0.5}
-            mt={-1}
-          >
-            {fakeSermons[2].pastor}
-          </Heading>
-        </Stack>
-        <Text lineHeight={6} fontWeight={400}>
-        {fakeSermons[2].passage}
-        </Text>
-        <HStack alignItems="center" space={4} justifyContent="space-between">
-          <HStack alignItems="center">
-            <Icon
-              as={<MaterialIcons name="access-time" />}
-              color="gray.500"
-              size="sm"
-            />
-            <Text ml={1} color="gray.500" fontWeight="500">
-              6 mins ago
-            </Text>
-          </HStack>
-          <HStack alignItems="center">
-            <Icon
-              as={<Ionicons name="ios-chatbubbles" />}
-              color="gray.500"
-              size="sm"
-            />
-
-            <Text ml={1} color="gray.500" fontWeight="500">
-              39 comments
-            </Text>
-          </HStack>
-        </HStack>
-      </Stack>
-    </Box>
-    <Box width={72} bg={useColorModeValue("gray.50", "gray.700")} shadow={1}>
-      <Box>
-        <AspectRatio ratio={16 / 9}>
-          <Image
-            roundedTop="lg"
-            source={{
-            // CHANGE URI INFO HERE
-              uri: fakeSermons[0].imageURI,
-            }}
-            alt="image"
-          />
-        </AspectRatio>
-        <Center
-          bg="red.500"
-          _text={{
-            color: "white",
-            fontWeight: "700",
-            fontSize: "xs",
-          }}
-          position="absolute"
-          bottom={0}
-          px={2}
-          py={0.1}
-        >
-          Sermons
-        </Center>
-        <Center
-          p={1}
-          rounded="full"
-          bg="red.500"
-          boxSize={10}
-          position="absolute"
-          right={0}
-          m={2}
-          _text={{
-            color: "white",
-            textAlign: "center",
-            fontWeight: "700",
-            fontSize: "xs",
-          }}
-        >
-          {/*} CHANGE DATE INFO HERE*/}
-          {fakeSermons[0].date}
-        </Center>
-      </Box>
-      <Stack p={4} space={2}>
-        <Stack space={2}>
-          <Heading size="md" ml={-1}>
-            {/*} CHANGE TITLE INFO HERE*/}
-            {fakeSermons[0].title}
-          </Heading>
-          <Heading
-            size="xs"
-            color={useColorModeValue("red.500", "red.300")}
-            fontWeight="500"
-            ml={-0.5}
-            mt={-1}
-          >
-            {/*} CHANGE PASTOR INFO HERE*/}
-            {fakeSermons[0].title}
-          </Heading>
-        </Stack>
-        <Text lineHeight={6} fontWeight={400}>
-          {/*} CHANGE PASSAGE INFO HERE*/}
-          {fakeSermons[0].passage}
-
-        </Text>
-        <HStack alignItems="center" space={4} justifyContent="space-between">
-          <HStack alignItems="center">
-            <Icon
-              as={<MaterialIcons name="access-time" />}
-              color="gray.500"
-              size="sm"
-            />
-            <Text ml={1} color="gray.500" fontWeight="500">
-              6 mins ago
-            </Text>
-          </HStack>
-          <HStack alignItems="center">
-            <Icon
-              as={<Ionicons name="ios-chatbubbles" />}
-              color="gray.500"
-              size="sm"
-            />
-
-            <Text ml={1} color="gray.500" fontWeight="500">
-              39 comments
-            </Text>
-          </HStack>
-        </HStack>
-      </Stack>
-    </Box>
-    </VStack>
-
-
+  
+   const sermonsModel = useContext(AppContext).sermonsModel;
+  
+   const navigation = useNavigation();
+ 
+ 
+   // Set false to have modal default to not show up
+   const [modalVisible, setModalVisible] = useState(true);
+  
+ 
+   // These will be needed by the modal and by the sermon cards
+   var day = new Date().getDay();
+   var hour = new Date().getHours();
+   var minute = new Date().getMinutes();
+ 
+ 
+ 
+ 
+   class SundayPopup extends React.Component
+   {
     
-    </SafeAreaView>
-    </ScrollView>
-  );
+     render()
+     {
+       // if statement to test modal, (will always return true)
+       //if (1 == 1)
+ 
+       // if the day is Sunday and the time is between 9:30 and 10:30 AM
+       if (day == 0 && ((hour == 9 && minute >= 30) || (hour == 10 && minute <= 30)))
+       {
+       return (
+       <Modal
+       animationType="fade"
+       transparent={true}      
+       visible={modalVisible}
+       onRequestClose={() => {
+         Alert.alert("Modal has been closed.");
+         //setModalVisible(true);
+       }}
+     >
+       <View style={styles.centeredView}>
+         <View style={styles.modalView}>
+ 
+           <Text style={styles.modalText}>Would you like to follow along with today's sermon?</Text>
+ 
+           <HStack>
+ 
+           <Pressable
+             style={[styles.button, styles.buttonClose]}
+ 
+             // This will show the video and the notes for the first sermon in the list
+             onPress={(event) => {navigation.dispatch(StackActions.push("SermonDetail", {sermonIndex: 0} )); setModalVisible(!modalVisible)}}
+           >
+ 
+             <Text style={styles.textStyle}>Yes </Text>
+ 
+           </Pressable>
+ 
+           {/*this is a spacer for the two buttons in the pop up*/}
+           <View style={{backgroundColor:'white', flex:0.4, }}></View>
+ 
+           <Pressable
+             style={[styles.button, styles.buttonClose]}
+             onPress={(event) => {setModalVisible(!modalVisible)}}
+           >
+ 
+             <Text style={styles.textStyle}>No </Text>
+ 
+           </Pressable>
+ 
+           </HStack>
+         </View>
+       </View>
+     </Modal>
+     )
+     }
+       else
+       {
+         return (
+           null
+         )
+       }
+     }
+   }
+  
+ 
+ 
+ 
+   class SermonsCardList extends React.Component {
+     render()
+     // The for-loop is adding the "sermon cards" to an array to be displayed on the screen in a vertical fashion
+     {
+       let row = [];
+ 
+       for (let i = 0; i < sermonsModel.sermonCount; ++i) {
+ 
+         // props youtubeVideoID and notesURL are needed to be passed to SermonDetail
+         row.push(<SermonsCard key={i} sermonIndex={i} />)
+ 
+       }
+ 
+       return <VStack>{row}</VStack>
+     }
+   }
+ 
+ 
+ 
+ 
+   // Allows SermonsCard to receive a number parameter called "sermonIndex"
+   //necessary for passing props in Typescript
+   interface ValPasser {
+ 
+     sermonIndex: number;
+   }
+ 
+ 
+ 
+   function SermonsCard(props:ValPasser) {
+     return (
+      
+     //this view is to space out the sermon cars evenly
+     <View style={{height:420,}}>
+       <Box width={72} bg={useColorModeValue("gray.50", "gray.700")} shadow={1}>
+         <Box>
+           <AspectRatio ratio={16 / 9}>
+ 
+           <Image
+             roundedTop="lg"
+             source={{
+             uri: sermonsModel.sermons[props.sermonIndex].thumbnailURL,
+             }}
+             alt="image"
+           />
+ 
+           </AspectRatio>
+           <Center
+             bg="red.500"
+             _text={{
+             color: "white",
+             fontWeight: "700",
+             fontSize: "xs",
+             }}
+             position="absolute"
+             bottom={0}
+             px={2}
+             py={0.1}
+           >
+ 
+           <Text color="white">SERMONS</Text>
+ 
+           </Center>
+           <Center
+             p={1}
+             rounded="full"
+             bg="red.500"
+             boxSize={12}
+             position="absolute"
+             right={0}
+             m={2}
+             _text={{
+             color: "white",
+             textAlign: "center",
+             fontWeight: "700",
+             fontSize: "xs",
+             }}
+           >
+ 
+             {/* The date that appears in the top right hand corner of each sermon card */}
+             <Text color="white">
+               {sermonsModel.sermons[props.sermonIndex].month}/{sermonsModel.sermons[props.sermonIndex].date}
+             </Text>
+ 
+           </Center>
+         </Box>
+         <Stack p={4} space={2}>
+           <Stack space={2}>
+             <Heading size="md" ml={-1}>
+               {sermonsModel.sermons[props.sermonIndex].title}
+             </Heading>
+             <Heading
+               size="xs"
+               color={useColorModeValue("red.500", "red.300")}
+               fontWeight="500"
+               ml={-0.5}
+               mt={-1}
+             >
+ 
+               <Text>
+                 {sermonsModel.sermons[props.sermonIndex].speakerName}
+               </Text>
+ 
+             </Heading>
+          </Stack>
+ 
+           <Text lineHeight={6} fontWeight={400}>
+             {sermonsModel.sermons[props.sermonIndex].passage}
+           </Text>
+ 
+           <Button title="View Sermon Details" onPress={ (event) =>
+ 
+             // Here we are passing the sermon index to the Sermon Detail Controller
+             {navigation.dispatch(StackActions.push("SermonDetail", {sermonIndex: props.sermonIndex} ));}
+ 
+           } />
+ 
+           <HStack alignItems="center" space={4} justifyContent="space-between">
+             <HStack alignItems="center">
+ 
+               <Icon
+                 as={<MaterialIcons name="access-time" />}
+                 color="gray.500"
+                 size="sm"
+               />
+ 
+                <Text ml={1} color="gray.500" fontWeight="500">
+                    6 mins ago
+               </Text>
+ 
+             </HStack>
+             <HStack alignItems="center">
+ 
+               <Icon
+                 as={<Ionicons name="ios-chatbubbles" />}
+                 color="gray.500"
+                 size="sm"
+               />
+ 
+               <Text ml={1} color="gray.500" fontWeight="500">
+                 39 comments
+               </Text>
+ 
+             </HStack>
+           </HStack>
+         </Stack>
+       </Box>
+     </View>
+     )
+   }
+ 
+ 
+ 
+  
+ return (
+ <ScrollView>
+     <SafeAreaView style={styles.container}>
+       <StatusBar hidden />
+ 
+       <View style={styles.centeredView}>
+ 
+         <SundayPopup></SundayPopup>
+ 
+       </View>
+ 
+       <VStack space={10} alignItems="center">
+ 
+         <SermonsCardList />
+ 
+       </VStack>
+ 
+     </SafeAreaView>
+ </ScrollView>
+ );
 }
+ 
+ 
+ 
+ 
 const styles = StyleSheet.create({
-  container: {
-    justifyContent: "center",
-    alignItems: "center",
-    flex: 1,
-  },
+ container: {
+   justifyContent: "center",
+   alignItems: "center",
+   flex: 1,
+ },
+ centeredView: {
+   flex: 1,
+   justifyContent: "center",
+   alignItems: "center",
+   marginTop: 22
+ },
+ modalView: {
+   margin: 20,
+   backgroundColor: "white",
+   borderRadius: 20,
+   padding: 35,
+   alignItems: "center",
+   shadowColor: "#000",
+   shadowOffset: {
+     width: 0,
+     height: 2
+   },
+   shadowOpacity: 0.25,
+   shadowRadius: 4,
+   elevation: 5
+ },
+ button: {
+   borderRadius: 20,
+   padding: 10,
+   elevation: 2
+ },
+ buttonOpen: {
+   backgroundColor: "#F194FF",
+ },
+ buttonClose: {
+   backgroundColor: "#2196F3",
+ },
+ textStyle: {
+   color: "white",
+   fontWeight: "bold",
+   textAlign: "center"
+ },
+ modalText: {
+   marginBottom: 15,
+   textAlign: "center"
+ }
 });
-
+ 
 export default () => {
-  return (
-      <Center flex={1}>
-        <SermonListScreen />
-      </Center>
-  )
+ return (
+     <Center flex={1}>
+       <SermonListScreen />
+     </Center>
+ )
 }
-
