@@ -1,20 +1,26 @@
-import { AllSermonsModel } from "./AllSermonsModel";
-import { SermonsModelUpdater } from "./SermonsModelUpdater";
+import { SermonsModel } from "./SermonsModel";
+import { ContextUpdater } from "./ContextUpdater";
 import React from "react";
+import { LOG } from "../util/HocLogger";
+import App from "../../App";
+import { autorun, makeObservable, observable } from "mobx";
 
 
 // context object that the react context will contain
 
 export class AppContextData {
     
-    sermonsModel: AllSermonsModel;
-    private sermonsUpdater: SermonsModelUpdater;
+    sermonsModel = new SermonsModel();
+    private sermonsUpdater = new ContextUpdater(this.sermonsModel);
 
     constructor() {
-        this.sermonsModel = new AllSermonsModel();
-        this.sermonsUpdater = new SermonsModelUpdater(this.sermonsModel);
-    }    
+        makeObservable(this, {
+            sermonsModel: observable
+        })
+    }
+
 }
 
 // actual react context object
-export const AppContext = React.createContext<AppContextData>(new AppContextData());
+export const universalContext = new AppContextData();
+export const AppContext = React.createContext<AppContextData>(universalContext);

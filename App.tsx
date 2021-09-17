@@ -8,7 +8,7 @@ import {createBottomTabNavigator} from "@react-navigation/bottom-tabs";
 import {SermonListController} from "./src/ui/sermonList/SermonListController";
 import {SermonDetailController} from "./src/ui/sermonDetail/SermonDetailController";
 import Ionicons from "@expo/vector-icons/Ionicons"
-import { AppContext, AppContextData } from './src/data/AppContext';
+import { AppContext, AppContextData, universalContext } from './src/data/AppContext';
 
 import { Component } from 'react';
 import { WebView } from 'react-native-webview';
@@ -59,7 +59,7 @@ export default function App() {
   return (
   <NativeBaseProvider>
       <AppContext.Provider
-        value={new AppContextData()}>
+        value={universalContext}>
         <NavigationContainer>
           <Tab.Navigator
             screenOptions={({ route }) => ({

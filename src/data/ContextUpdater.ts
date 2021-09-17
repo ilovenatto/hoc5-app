@@ -1,16 +1,39 @@
-import { AllSermonsModel } from "./AllSermonsModel";
+import { SermonsModel } from "./SermonsModel";
 import { Sermon, newSermon } from "./Sermon";
 import { LOG } from "../util/HocLogger";
+import firebase from "firebase";
+import { action, makeObservable } from "mobx";
+
+
+// firebase stuff
+const firebaseConfig = {
+    apiKey: "AIzaSyCjlapwGfut4_I-EKEnFDdZRoQce-Bk5bQ",
+    authDomain: "hoc5-app-9f907.firebaseapp.com",
+    databaseURL: "https://hoc5-app-9f907-default-rtdb.firebaseio.com",
+    projectId: "hoc5-app-9f907",
+    storageBucket: "hoc5-app-9f907.appspot.com",
+    messagingSenderId: "202004323081",
+    appId: "1:202004323081:web:8ac7f87098c89350f2d1d8",
+    measurementId: "G-JXYVB71QQX"
+};
+
+LOG.debug('initializing firebase');
+const firebaseApp = firebase.initializeApp(firebaseConfig);
+const database = firebase.database(firebaseApp);
 
 // updates AllSermonsModel from changes in firebase
-
-export class SermonsModelUpdater {
+export class ContextUpdater {
     
-    private sermonsModel: AllSermonsModel;
+    private sermonsModel: SermonsModel;
 
-    constructor(sermonsModel: AllSermonsModel) {
+    constructor(sermonsModel: SermonsModel) {
         this.sermonsModel = sermonsModel;
-        this.addFakeData();
+
+        this.addListeners(this);
+
+        makeObservable(this, {
+            addSermonToModel: action
+        });
     }
 
     addSermonToModel(sermon: Sermon) {
@@ -60,5 +83,47 @@ export class SermonsModelUpdater {
         for (const sermon of fakeSermons) {
             this.addSermonToModel(sermon);
         }
+    }
+
+    // firebase functions
+    addListeners(self: ContextUpdater) {
+        const listRef = database.ref('sermons');
+        listRef.once('value', (snapshot) => {
+            self.loadSermons(self, snapshot);
+        });
+    }
+
+    // loads the list of sermons from a snapshot of the data
+    loadSermons(self: ContextUpdater, sermonsSnapshot: firebase.database.DataSnapshot) {
+
+        const sermonsList: {
+            [sermonKey: string]: {[fieldKey: string]: string}
+        } = sermonsSnapshot.val().list;
+
+        for (const key in sermonsList) {
+            self.addSermonToModel(self.dataToSermon(sermonsList[key]));
+        }
+
+    }
+
+    
+
+    // converts data stored in firebase into a sermon data object
+    dataToSermon(sermonData: {[key: string]: string}): Sermon {
+
+        const dateNumArray = sermonData['date'].split('/');
+
+        return newSermon({
+            title: sermonData['title'],
+            speakerName: sermonData['speaker-name'],
+            thumbnailURL: sermonData['thumbnail-url'],
+            passage: sermonData['passage'],
+            year: parseInt(dateNumArray[2]),
+            month: parseInt(dateNumArray[0]),
+            date: parseInt(dateNumArray[1]),
+            youtubeVideoID: sermonData['youtube-video-id'],
+            notesURL: sermonData['notes-url']
+
+        });
     }
 }

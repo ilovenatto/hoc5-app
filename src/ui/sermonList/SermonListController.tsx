@@ -6,6 +6,8 @@ import { AppContext } from "../../data/AppContext";
 
 import {SermonListScreen} from "./SermonListScreen";
 import {LOG} from "../../util/HocLogger";
+import {observer} from "mobx-react";
+import { autorun } from "mobx";
 
 /**
  * ViewController for {@link SermonListScreen}
@@ -31,9 +33,10 @@ export function SermonListController() {
   return <SermonListScreen />;
 }
 
-// the following code implements basically the same thing as above, but shows
-// how to access the sermons model when the component is written as a class
+// // the following code implements basically the same thing as above, but shows
+// // how to access the sermons model when the component is written as a class
 
+// @observer
 // export class SermonListController extends React.Component {
 
 //   render() {
