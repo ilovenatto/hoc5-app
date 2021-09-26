@@ -6,6 +6,9 @@ import YoutubePlayer from 'react-native-youtube-iframe';
 import { WebView } from 'react-native-webview';
 import { ScrollView } from "react-native-gesture-handler"
 import { AppContext } from "../../data/AppContext";
+
+
+import { Dimensions } from 'react-native'
  
 // This is needed to define the parameter (index for the sermon) received from the Detail Controller to be received as a prop in the SermonDetailScreen function
 interface PropsPasser {
@@ -32,10 +35,15 @@ function Sermon(props: SermonPasser) {
    return  (
    <View style={styles.container}>
  
+ {
+ 
      <YoutubePlayer
        //ref={this.playerRef}
-       height={300}
-       width={400}
+       
+       // Dimensions.get('window').width is used for scaling the components (also used in the Notes comonent), .59 is an arbritrary value that makes it look the best
+
+       height={Dimensions.get('window').width * .59}
+       width={Dimensions.get('window').width}
        videoId={sermonsModel.sermons[props.sermonIndexForVid].youtubeVideoID}
        //play={this.state.playing}
        onChangeState={event => console.log(event)}
@@ -49,7 +57,10 @@ function Sermon(props: SermonPasser) {
        showClosedCaptions: true
        }}
      />
- 
+      }
+
+
+
  </View>
    )
 }
@@ -64,8 +75,9 @@ function Notes(props: NotesPasser) {
  
      <WebView
        source={{uri: sermonsModel.sermons[props.sermonIndexForNotes].notesURL}}
-       style={{height: 500, width: 380}}
+       style={{height: 500, width: Dimensions.get('window').width}}
      />
+
  
    </View>
  )

@@ -21,6 +21,7 @@ import {SafeAreaView, StatusBar, StyleSheet, Button, Alert, Modal, Pressable, Dy
 import { MaterialIcons, Ionicons, MaterialCommunityIcons } from "@expo/vector-icons"
 import {useNavigation, StackActions} from "@react-navigation/native";
 import { AppContext } from "../../data/AppContext";
+import { Dimensions } from 'react-native'
  
  
 export function SermonListScreen() {
@@ -227,7 +228,8 @@ export function SermonListScreen() {
              {navigation.dispatch(StackActions.push("SermonDetail", {sermonIndex: props.sermonIndex} ));}
  
            } />
- 
+
+          {/*
            <HStack alignItems="center" space={4} justifyContent="space-between">
              <HStack alignItems="center">
  
@@ -256,6 +258,7 @@ export function SermonListScreen() {
  
              </HStack>
            </HStack>
+          */}
          </Stack>
        </Box>
      </View>
