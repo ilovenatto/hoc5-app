@@ -1,4 +1,5 @@
 import * as React from 'react';
+import { NativeBaseProvider, Box } from 'native-base';
 import {NavigationContainer} from '@react-navigation/native';
 import {createStackNavigator} from '@react-navigation/stack';
 import {EventListController} from "./src/ui/eventList/EventListController";
@@ -9,6 +10,9 @@ import {SermonDetailController} from "./src/ui/sermonDetail/SermonDetailControll
 import Ionicons from "@expo/vector-icons/Ionicons"
 import { AppContext, AppContextData } from './src/data/AppContext';
 
+import { Component } from 'react';
+import { WebView } from 'react-native-webview';
+
 //https://reactnavigation.org/docs/typescript/
 // Strongly type the route parameters this screen expects
 //
@@ -16,6 +20,9 @@ import { AppContext, AppContextData } from './src/data/AppContext';
 export type EventStackParamList = {
   EventList: undefined;
   EventDetail: undefined;
+  Sermon: undefined;
+  // FOR NEW SCREENS ADD STUFF HERE
+
 };
 export type SermonStackParamList = {
 
@@ -50,6 +57,7 @@ function EventStackScreen() {
 const Tab = createBottomTabNavigator();
 export default function App() {
   return (
+<NativeBaseProvider>
     <AppContext.Provider
       value={new AppContextData()}>
       <NavigationContainer>
@@ -73,5 +81,6 @@ export default function App() {
         </Tab.Navigator>
       </NavigationContainer>
     </AppContext.Provider>  
+    </NativeBaseProvider>
   );
 }
