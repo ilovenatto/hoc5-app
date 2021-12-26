@@ -1,34 +1,14 @@
-
 import React from "react";
-import { useContext } from "react";
-import { useEffect } from "react";
-import { AppContext } from "../../data/AppContext";
 
 import {SermonListScreen} from "./SermonListScreen";
-import {LOG} from "../../util/HocLogger";
+
+// TODO move non-view logic here from SemronListScreen
 
 /**
  * ViewController for {@link SermonListScreen}
  */
-
-
 export function SermonListController() {
-
-  // the following code is a demonstration on how to access 
-  // the sermon data from any react component within the app
-
-  useContext(AppContext)
-
-  const sermonsModel = useContext(AppContext).sermonsModel;
-
-  useEffect(() => {
-    for (let i = 0; i < sermonsModel.sermonCount; ++i) {
-      LOG.debug(`${sermonsModel.sermons[i].title}\n`);
-    }
-  });
-
-
-  return <SermonListScreen />;
+  return <SermonListScreen/>;
 }
 
 // the following code implements basically the same thing as above, but shows

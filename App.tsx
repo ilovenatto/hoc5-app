@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { NativeBaseProvider, Box } from 'native-base';
+import {NativeBaseProvider} from 'native-base';
 import {NavigationContainer} from '@react-navigation/native';
 import {createStackNavigator} from '@react-navigation/stack';
 import {EventListController} from "./src/ui/eventList/EventListController";
@@ -8,10 +8,8 @@ import {createBottomTabNavigator} from "@react-navigation/bottom-tabs";
 import {SermonListController} from "./src/ui/sermonList/SermonListController";
 import {SermonDetailController} from "./src/ui/sermonDetail/SermonDetailController";
 import Ionicons from "@expo/vector-icons/Ionicons"
-import { AppContext, AppContextData } from './src/data/AppContext';
+import {AppData, DataContext} from './src/data/DataContext';
 
-import { Component } from 'react';
-import { WebView } from 'react-native-webview';
 
 //https://reactnavigation.org/docs/typescript/
 // Strongly type the route parameters this screen expects
@@ -32,22 +30,24 @@ export type SermonStackParamList = {
 
 // Sermons
 const SermonStack = createStackNavigator<SermonStackParamList>();
+
 function SermonStackScreen() {
   return (
     <SermonStack.Navigator>
-      <SermonStack.Screen name="SermonList" component={SermonListController} />
-      <SermonStack.Screen name="SermonDetail" component={SermonDetailController} />
+      <SermonStack.Screen name="SermonList" component={SermonListController}/>
+      <SermonStack.Screen name="SermonDetail" component={SermonDetailController}/>
     </SermonStack.Navigator>
   );
 }
 
 // Events
 const EventStack = createStackNavigator<EventStackParamList>();
+
 function EventStackScreen() {
   return (
     <EventStack.Navigator>
-      <EventStack.Screen name="EventList" component={EventListController} />
-      <EventStack.Screen name="EventDetail" component={EventDetailController} />
+      <EventStack.Screen name="EventList" component={EventListController}/>
+      <EventStack.Screen name="EventDetail" component={EventDetailController}/>
     </EventStack.Navigator>
   );
 }
@@ -57,30 +57,30 @@ function EventStackScreen() {
 const Tab = createBottomTabNavigator();
 export default function App() {
   return (
-<NativeBaseProvider>
-    <AppContext.Provider
-      value={new AppContextData()}>
-      <NavigationContainer>
-        <Tab.Navigator
-          screenOptions={({ route }) => ({
-            tabBarIcon: ({ focused, color, size }) => {
-              let iconName;
-              if (route.name === 'Events') {
-                iconName = focused
-                  ? 'ios-calendar'
-                  : 'ios-calendar-outline';
-              } else if (route.name === 'Sermons') {
-                iconName = focused ? 'ios-videocam' : 'ios-videocam-outline';
-              }
-              // @ts-ignore
-              return <Ionicons name={iconName} size={size} color={color} />;
-            },
-          })}>
-          <Tab.Screen name="Sermons" component={SermonStackScreen} />
-          <Tab.Screen name="Events" component={EventStackScreen} />
-        </Tab.Navigator>
-      </NavigationContainer>
-    </AppContext.Provider>  
+    <NativeBaseProvider>
+      <DataContext.Provider
+        value={new AppData()}>
+        <NavigationContainer>
+          <Tab.Navigator
+            screenOptions={({route}) => ({
+              tabBarIcon: ({focused, color, size}) => {
+                let iconName;
+                if (route.name === 'Events') {
+                  iconName = focused
+                    ? 'ios-calendar'
+                    : 'ios-calendar-outline';
+                } else if (route.name === 'Sermons') {
+                  iconName = focused ? 'ios-videocam' : 'ios-videocam-outline';
+                }
+                // @ts-ignore
+                return <Ionicons name={iconName} size={size} color={color}/>;
+              },
+            })}>
+            <Tab.Screen name="Sermons" component={SermonStackScreen}/>
+            <Tab.Screen name="Events" component={EventStackScreen}/>
+          </Tab.Navigator>
+        </NavigationContainer>
+      </DataContext.Provider>
     </NativeBaseProvider>
   );
 }
