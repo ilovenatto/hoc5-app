@@ -1,8 +1,8 @@
-import React, {useContext,} from "react";
+import React from "react";
 import {Dimensions, SafeAreaView, StatusBar, StyleSheet, View,} from "react-native";
 import YoutubePlayer from 'react-native-youtube-iframe';
 import {WebView} from 'react-native-webview';
-import {DataContext} from "../../data/DataContext";
+import {useChurchDataContext} from "../../data/ChurchData";
 
 
 // This is needed to define the parameter (index for the sermon) received from the Detail Controller to be received as a prop in the SermonDetailScreen function
@@ -26,7 +26,7 @@ interface NotesPasser {
 
 // This displays the sermon youtube vid
 function Sermon(props: SermonPasser) {
-  const sermons = useContext(DataContext).sermons;
+  const sermons = useChurchDataContext().sermons;
   return (
     <View style={styles.container}>
 
@@ -39,7 +39,7 @@ function Sermon(props: SermonPasser) {
 
           height={Dimensions.get('window').width * .59}
           width={Dimensions.get('window').width}
-          videoId={sermons[props.sermonIndexForVid].youtubeVideoID}
+          videoId={sermons[props.sermonIndexForVid].youtubeVideoId}
           //play={this.state.playing}
           onChangeState={event => console.log(event)}
           onReady={() => console.log("ready")}
@@ -61,14 +61,13 @@ function Sermon(props: SermonPasser) {
 
 //This displays the notes for the sermon
 function Notes(props: NotesPasser) {
-
-  const sermons = useContext(DataContext).sermons;
+  const sermons = useChurchDataContext().sermons;
 
   return (
     <View style={styles.container}>
 
       <WebView
-        source={{uri: sermons[props.sermonIndexForNotes].notesURL}}
+        source={{uri: sermons[props.sermonIndexForNotes].notesUrl}}
         style={{height: 500, width: Dimensions.get('window').width}}
       />
 

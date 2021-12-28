@@ -8,8 +8,8 @@ import {LOG} from "../../util/HocLogger";
 export function EventListController() {
   // Check if logged by trying to query for the account (and only do this once)
   useEffect(() => {
-      LOG.debug(`Do initialization stuff`);
+    LOG.debug(`Do initialization stuff`);
   }, []);
 
-  return <EventListScreen />;
+  return <EventListScreen/>;
 }

@@ -1,4 +1,5 @@
 import * as React from 'react';
+import {useEffect, useRef} from 'react';
 import {NativeBaseProvider} from 'native-base';
 import {NavigationContainer} from '@react-navigation/native';
 import {createStackNavigator} from '@react-navigation/stack';
@@ -8,7 +9,7 @@ import {createBottomTabNavigator} from "@react-navigation/bottom-tabs";
 import {SermonListController} from "./src/ui/sermonList/SermonListController";
 import {SermonDetailController} from "./src/ui/sermonDetail/SermonDetailController";
 import Ionicons from "@expo/vector-icons/Ionicons"
-import {AppData, DataContext} from './src/data/DataContext';
+import {ChurchData, ChurchDataContext} from "./src/data/ChurchData";
 
 
 //https://reactnavigation.org/docs/typescript/
@@ -56,10 +57,15 @@ function EventStackScreen() {
 // https://reactnavigation.org/docs/tab-based-navigation
 const Tab = createBottomTabNavigator();
 export default function App() {
+  const CHURCH_DATA = useRef(new ChurchData());
+  useEffect(() => {
+    CHURCH_DATA.current.loadAll();
+  }, []); // do only once
+
   return (
     <NativeBaseProvider>
-      <DataContext.Provider
-        value={new AppData()}>
+      <ChurchDataContext.Provider
+        value={new ChurchData()}>
         <NavigationContainer>
           <Tab.Navigator
             screenOptions={({route}) => ({
@@ -80,7 +86,7 @@ export default function App() {
             <Tab.Screen name="Events" component={EventStackScreen}/>
           </Tab.Navigator>
         </NavigationContainer>
-      </DataContext.Provider>
+      </ChurchDataContext.Provider>
     </NativeBaseProvider>
   );
 }

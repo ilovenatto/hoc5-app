@@ -1,4 +1,4 @@
-import React, {useContext, useState} from "react"
+import React, {useState} from "react"
 import {ScrollView} from "react-native-gesture-handler"
 import {
   AspectRatio,
@@ -15,12 +15,12 @@ import {
 } from "native-base"
 import {Alert, Button, Modal, Pressable, SafeAreaView, StatusBar, StyleSheet} from "react-native";
 import {StackActions, useNavigation} from "@react-navigation/native";
-import {DataContext} from "../../data/DataContext";
+import {useChurchDataContext} from "../../data/ChurchData";
 
 
 export function SermonListScreen() {
 
-  const sermons = useContext(DataContext).sermons;
+  const sermons = useChurchDataContext().sermons;
 
   const navigation = useNavigation();
 
@@ -133,7 +133,7 @@ export function SermonListScreen() {
               <Image
                 roundedTop="lg"
                 source={{
-                  uri: sermons[props.sermonIndex].thumbnailURL,
+                  uri: sermons[props.sermonIndex].thumbnailUrl,
                 }}
                 alt="image"
               />
@@ -173,7 +173,7 @@ export function SermonListScreen() {
 
               {/* The date that appears in the top right hand corner of each sermon card */}
               <Text color="white">
-                {sermons[props.sermonIndex].month}/{sermons[props.sermonIndex].date}
+                {sermons[props.sermonIndex].date.toLocaleDateString()}
               </Text>
 
             </Center>

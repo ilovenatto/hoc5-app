@@ -1,31 +1,27 @@
 // sermon id type alias
+import {makeObservable, observable} from "mobx";
+
 export type sermonID = number;
 
 // defines sermon data structure
-export interface Sermon {
-    title: string;
-    speakerName: string;
-    thumbnailURL: string;
-    passage: string;
-    year: number;
-    month: number;
-    date: number;
-    youtubeVideoID: string;
-    notesURL: string;
-}
+export class Sermon {
+  title: string = "";
+  speakerName: string = "";
+  thumbnailUrl: string = "";
+  passage: string = "";
+  date: Date = new Date(0);
+  youtubeVideoId: string = "";
+  notesUrl: string = "";
 
-// creates a sermon object based on provided arguments
-export function newSermon(fields: Partial<Sermon>): Sermon {
-    let defaultSermon: Sermon = {
-        title: 'Unnamed Sermon',
-        speakerName: 'Unknown',
-        thumbnailURL: '',
-        passage: '',
-        year: 1,
-        month: 1,
-        date: 1,
-        youtubeVideoID: '',
-        notesURL: ''
-    };
-    return Object.assign(defaultSermon, fields);
+  constructor() {
+    makeObservable(this, {
+      title: observable,
+      speakerName: observable,
+      thumbnailUrl: observable,
+      passage: observable,
+      date: observable,
+      youtubeVideoId: observable,
+      notesUrl: observable
+    });
+  }
 }

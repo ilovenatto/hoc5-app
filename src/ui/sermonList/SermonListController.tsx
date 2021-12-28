@@ -3,7 +3,7 @@ import React from "react";
 import {SermonListScreen} from "./SermonListScreen";
 
 // TODO move non-view logic here from SemronListScreen
-
+  
 /**
  * ViewController for {@link SermonListScreen}
  */
