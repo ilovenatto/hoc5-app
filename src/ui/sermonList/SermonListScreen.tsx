@@ -16,6 +16,7 @@ import {
 import {Alert, Button, Modal, Pressable, SafeAreaView, StatusBar, StyleSheet} from "react-native";
 import {StackActions, useNavigation} from "@react-navigation/native";
 import {useChurchDataContext} from "../../data/ChurchData";
+import {observer} from "mobx-react-lite";
 
 
 export function SermonListScreen() {
@@ -101,17 +102,18 @@ export function SermonListScreen() {
     }
   }
 
-  function SermonsCardList() {
+  const SermonsCardList = observer(() => {
     return (
       <VStack>
         {sermons.forEach((sermon, index) => {
           // props youtubeVideoID and notesURL are needed to be passed to SermonDetail
+          // TODO sermons is an empty array b/c the array value does not get updated
+          // This component doesn't know it's updated during the SermonsLoader#loadAll() call
           <SermonsCard key={index} sermonIndex={index}/>
-
         })}
       </VStack>
     )
-  }
+  });
 
 
   // Allows SermonsCard to receive a number parameter called "sermonIndex"
