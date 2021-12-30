@@ -1,30 +1,32 @@
 import React from "react";
 
 import {SermonListScreen} from "./SermonListScreen";
+import {observer} from "mobx-react-lite";
+import {useChurchDataContext} from "../../data/ChurchData";
+import {StackActions, useNavigation} from "@react-navigation/native";
+import {Progress} from "native-base";
 
-// TODO move non-view logic here from SemronListScreen
-  
 /**
  * ViewController for {@link SermonListScreen}
  */
-export function SermonListController() {
-  return <SermonListScreen/>;
-}
+export const SermonListController = observer(() => {
+  const churchData = useChurchDataContext();
+  const latestSermonId = churchData.getLatestSermon();
+  const {sermons, isLoaded} = churchData;
+  const navigation = useNavigation();
 
-// the following code implements basically the same thing as above, but shows
-// how to access the sermons model when the component is written as a class
+  if (!isLoaded) {
+    return <Progress/>
+  } else {
+    return <SermonListScreen
+      latestSermonId={latestSermonId}
+      sermons={sermons}
+      onViewSermon={(sermonId) => {
+        navigation.dispatch(StackActions
+          .push("SermonDetail",
+            {targetSermonId: sermonId}));
+      }
+      }/>
+  }
+});
 
-// export class SermonListController extends React.Component {
-
-//   render() {
-
-//     let sermonsModel = this.context.sermonsModel;
-
-//     for (let i = 0; i < sermonsModel.sermonCount; ++i) {
-//       LOG.debug(`${sermonsModel.sermons[i].title}\n`);
-//     }
-
-//     return <SermonListScreen />;
-//   }
-// }
-// SermonListController.contextType = AppContext;

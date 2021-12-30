@@ -5,6 +5,7 @@ export type sermonID = number;
 
 // defines sermon data structure
 export class Sermon {
+  id: string = "";
   title: string = "";
   speakerName: string = "";
   thumbnailUrl: string = "";
@@ -15,6 +16,7 @@ export class Sermon {
 
   constructor() {
     makeObservable(this, {
+      id: observable,
       title: observable,
       speakerName: observable,
       thumbnailUrl: observable,

@@ -6,10 +6,10 @@ import {createStackNavigator} from '@react-navigation/stack';
 import {EventListController} from "./src/ui/eventList/EventListController";
 import {EventDetailController} from "./src/ui/eventDetail/EventDetailController";
 import {createBottomTabNavigator} from "@react-navigation/bottom-tabs";
-import {SermonListController} from "./src/ui/sermonList/SermonListController";
 import {SermonDetailController} from "./src/ui/sermonDetail/SermonDetailController";
 import Ionicons from "@expo/vector-icons/Ionicons"
 import {ChurchData, ChurchDataContext} from "./src/data/ChurchData";
+import {SermonListController} from "./src/ui/sermonList/SermonListController";
 
 
 //https://reactnavigation.org/docs/typescript/
@@ -65,7 +65,7 @@ export default function App() {
   return (
     <NativeBaseProvider>
       <ChurchDataContext.Provider
-        value={new ChurchData()}>
+        value={CHURCH_DATA.current}>
         <NavigationContainer>
           <Tab.Navigator
             screenOptions={({route}) => ({

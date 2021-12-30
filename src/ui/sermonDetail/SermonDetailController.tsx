@@ -1,27 +1,25 @@
 import React from "react"
 import {SermonDetailScreen} from "./SermonDetailScreen";
-import {useRoute} from "@react-navigation/native"
+import {useChurchDataContext} from "../../data/ChurchData";
+import {Sermon} from "../../data/Sermon";
+import {useRoute} from "@react-navigation/native";
 
 /**
  * ViewController for {@link SermonDetailScreen}
  */
-
-
 interface SermonDetailRouteProp {
   key: string,
   name: string,
   params: {
-    sermonIndex: number
+    targetSermonId: string
   }
 }
 
-
+// Functional component (not an observer). No need to observe sermon. It's not changing
 export function SermonDetailController() {
-
-  // First, we receive the index of the sermon from the Sermon List
   const params = useRoute<SermonDetailRouteProp>().params;
-
-  // Here, we call the Sermon Detail Screen, passing the sermonIndex parameter
-  return <SermonDetailScreen sermonIndex={params.sermonIndex}/>;
+  const churchData = useChurchDataContext();
+  const sermon: Sermon | undefined = churchData.getSermon(params.targetSermonId);
+  return sermon && <SermonDetailScreen sermon={sermon}/>
 }
 

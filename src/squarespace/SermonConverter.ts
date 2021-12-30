@@ -26,6 +26,7 @@ export class SermonConverter {
     const YOUTUBE_ID_REGEX = /\w{8,11}(?=(\/hqdefault\.jpg&quot;,&quot;)|(&amp;image=http)|(%2Fhqdefault\.jpg&amp;)|(&quot;,&quot;width&quot;)|(\?wmode))/g;
 
     const result = new Sermon();
+    result.id = squareSermon.id;
     result.title = squareSermon.title;
     result.speakerName = squareSermon.author.displayName;
     result.thumbnailUrl = squareSermon.assetUrl;
@@ -35,7 +36,7 @@ export class SermonConverter {
     // get passage excerpt
     const passageMatches: RegExpMatchArray | null = squareSermon.excerpt.match(PASSAGE_REGEX);
     if (passageMatches == null) {
-      result.passage = "Passage not found";
+      result.passage = "No passage";
       LOG.debug(`Unable to find any matches for passage in:\n\t${squareSermon.excerpt}`);
     } else if (passageMatches.length > 1) {
       result.passage = passageMatches.join(", ");
@@ -48,7 +49,8 @@ export class SermonConverter {
     // get youtube id
     const youtubeIdMatches: RegExpMatchArray | null = squareSermon.body.match(YOUTUBE_ID_REGEX);
     LOG.debug(`Found the following youtube id matches:\n${youtubeIdMatches}`);
-
+    const youtubeId = youtubeIdMatches?.pop();
+    result.youtubeVideoId = youtubeId;
     return result;
   }
 

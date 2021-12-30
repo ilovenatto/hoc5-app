@@ -2,95 +2,48 @@ import React from "react";
 import {Dimensions, SafeAreaView, StatusBar, StyleSheet, View,} from "react-native";
 import YoutubePlayer from 'react-native-youtube-iframe';
 import {WebView} from 'react-native-webview';
-import {useChurchDataContext} from "../../data/ChurchData";
+import {Sermon} from "../../data/Sermon";
+import {LOG} from "../../util/HocLogger";
 
 
 // This is needed to define the parameter (index for the sermon) received from the Detail Controller to be received as a prop in the SermonDetailScreen function
-interface PropsPasser {
-  sermonIndex: number
+interface SermonDetailProps {
+  sermon: Sermon;
 }
 
-// This is needed to define the parameter (index for the sermon) received from the SermonDetailScreen function to be received as a prop in the Sermon function
-interface SermonPasser {
-  sermonIndexForVid: number
-}
-
-// This is needed to define the parameter (index for the sermon) received from the SermonDetailScreen function to be received as a prop in the Notes function
-interface NotesPasser {
-  sermonIndexForNotes: number
-}
-
-// prb useful link
-// https://stackoverflow.com/questions/36382935/how-to-prevent-react-native-android-webview-from-running-youtube-in-the-backgrou
-
-
-// This displays the sermon youtube vid
-function Sermon(props: SermonPasser) {
-  const sermons = useChurchDataContext().sermons;
-  return (
-    <View style={styles.container}>
-
-      {
-
-        <YoutubePlayer
-          //ref={this.playerRef}
-
-          // Dimensions.get('window').width is used for scaling the components (also used in the Notes comonent), .59 is an arbritrary value that makes it look the best
-
-          height={Dimensions.get('window').width * .59}
-          width={Dimensions.get('window').width}
-          videoId={sermons[props.sermonIndexForVid].youtubeVideoId}
-          //play={this.state.playing}
-          onChangeState={event => console.log(event)}
-          onReady={() => console.log("ready")}
-          onError={e => console.log(e)}
-          onPlaybackQualityChange={q => console.log(q)}
-          volume={50}
-          playbackRate={1}
-          initialPlayerParams={{
-            cc_lang_pref: "us",
-            showClosedCaptions: true
-          }}
-        />
-      }
-
-
-    </View>
-  )
-}
-
-//This displays the notes for the sermon
-function Notes(props: NotesPasser) {
-  const sermons = useChurchDataContext().sermons;
-
-  return (
-    <View style={styles.container}>
-
-      <WebView
-        source={{uri: sermons[props.sermonIndexForNotes].notesUrl}}
-        style={{height: 500, width: Dimensions.get('window').width}}
-      />
-
-
-    </View>
-  )
-}
-
-
-export function SermonDetailScreen(props: PropsPasser) {
-
+export function SermonDetailScreen(props: SermonDetailProps) {
+  const {sermon} = props
+  LOG.debug(sermon) // REMOVE
   return (
     <SafeAreaView style={styles.container}>
       <StatusBar hidden/>
-
-      {/* Passing in the sermonIndex to the Sermon function so the Sermon function can actually obtain the value */}
-
-      <Sermon sermonIndexForVid={props.sermonIndex}/>
-
-      {/* Passing in the sermonIndex to the Notes function so the Sermon function can actually obtain the value */}
-
-      <Notes sermonIndexForNotes={props.sermonIndex}/>
-
+      <View style={styles.container}>
+        {
+          <YoutubePlayer
+            // Dimensions.get('window').width is used for scaling the components (also used in the Notes component), .59 is an arbritrary value that makes it look the best
+            height={Dimensions.get('window').width * .59}
+            width={Dimensions.get('window').width}
+            videoId={sermon.youtubeVideoId}
+            //play={this.state.playing}
+            onChangeState={event => console.log(event)}
+            onReady={() => console.log("ready")}
+            onError={e => console.log(e)}
+            onPlaybackQualityChange={q => console.log(q)}
+            volume={50}
+            playbackRate={1}
+            initialPlayerParams={{
+              cc_lang_pref: "us",
+              showClosedCaptions: true
+            }}
+          />
+        }
+      </View>
+      <View style={styles.container}>
+        <WebView
+          source={{uri: sermon.notesUrl}}
+          style={{height: 500, width: Dimensions.get('window').width}}
+        />
+      </View>
     </SafeAreaView>
   );
 }
