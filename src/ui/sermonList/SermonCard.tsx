@@ -1,6 +1,6 @@
 import React from "react"
 import {AspectRatio, Box, Center, Heading, Image, Stack, Text, useColorModeValue, View} from "native-base"
-import {Button} from "react-native";
+import {Button, Dimensions,} from "react-native";
 import {Sermon} from "../../data/Sermon";
 
 interface SermonCardProps {
@@ -14,11 +14,11 @@ export function SermonCard(props: SermonCardProps) {
   return (
 
     //this view is to space out the sermon cars evenly
-    <View style={{height: 420,}}>
-      <Box width={72} bg={useColorModeValue("gray.50", "gray.700")} shadow={1}>
+    <View style={{height: 420, width: Dimensions.get('window').width}}>
+      <Box alignSelf = "center" width={72} bg={useColorModeValue("gray.50", "gray.700")} shadow={1}>
         <Box>
           <AspectRatio ratio={16 / 9}>
-
+            
             <Image
               roundedTop="lg"
               source={{
@@ -36,7 +36,7 @@ export function SermonCard(props: SermonCardProps) {
               fontSize: "xs",
             }}
             position="absolute"
-            bottom={0}
+            top={4}
             px={2}
             py={0.1}
           >
@@ -95,7 +95,7 @@ export function SermonCard(props: SermonCardProps) {
           }
           }/>
         </Stack>
-      </Box>
+      </Box>   
     </View>
   )
 }

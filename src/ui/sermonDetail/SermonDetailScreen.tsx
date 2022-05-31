@@ -1,5 +1,5 @@
 import React from "react";
-import {Dimensions, SafeAreaView, StatusBar, StyleSheet, View,} from "react-native";
+import {Dimensions, SafeAreaView, StatusBar, StyleSheet, View, ScrollView} from "react-native";
 import YoutubePlayer from 'react-native-youtube-iframe';
 import {WebView} from 'react-native-webview';
 import {Sermon} from "../../data/Sermon";
@@ -17,11 +17,14 @@ export function SermonDetailScreen(props: SermonDetailProps) {
   return (
     <SafeAreaView style={styles.container}>
       <StatusBar hidden/>
+
+      <ScrollView>
+
       <View style={styles.container}>
         {
           <YoutubePlayer
-            // Dimensions.get('window').width is used for scaling the components (also used in the Notes component), .59 is an arbritrary value that makes it look the best
-            height={Dimensions.get('window').width * .59}
+            // Dimensions.get('window').width is used for scaling the components (also used in the Notes component), .5618 is an arbritrary value that makes it look the best
+            height={Dimensions.get('window').width * .5618}
             width={Dimensions.get('window').width}
             videoId={sermon.youtubeVideoId}
             //play={this.state.playing}
@@ -38,12 +41,27 @@ export function SermonDetailScreen(props: SermonDetailProps) {
           />
         }
       </View>
-      <View style={styles.container}>
+      
+      <View style={{
+        alignItems: "center", width: Dimensions.get('window').width, height: 500, backgroundColor: 'white'}}>
         <WebView
-          source={{uri: sermon.notesUrl}}
+          // Adds a textbox for people to take notes
+          source={{uri: 'https://www.rapidtables.com/tools/notepad.html'}}
           style={{height: 500, width: Dimensions.get('window').width}}
         />
       </View>
+
+      <View style={styles.container}>
+        <WebView
+          // Webview for notes (when there are notes)
+          source={{uri: sermon.notesUrl}}
+          // Dimensions.get('window').width is used for scaling the components (also used in the Notes component), .01 is an arbritrary value that makes it look the best
+          style={{height: Dimensions.get('window').width * .01, width: Dimensions.get('window').width}}
+        />
+      </View>
+
+      </ScrollView>
+
     </SafeAreaView>
   );
 }
