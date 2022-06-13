@@ -17,6 +17,8 @@ https://docs.google.com/document/d/1B-VCyDS9k6T-2Ke1cCvIf7Z3Jfl5qAtjTaDILCJ9cfo/
 https://docs.nativebase.io/
 - React Tutorial:
 https://reactjs.org/docs/introducing-jsx.html
+- Sharing pre-release versions of the app (ie Run app on phone without hosting local server on laptop)
+https://docs.expo.dev/guides/sharing-preview-releases/
 
 TODO
 
